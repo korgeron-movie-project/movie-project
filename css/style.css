@@ -1,0 +1,57 @@
+*{
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+body{
+    display: grid;
+    height: 600px;
+    width: auto;
+    grid-template-areas:
+        'leftside rightside'
+        'moviebar moviebar';
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows:repeat(2, 1fr) ;
+}
+
+leftside{
+    padding: 1em;
+    grid-area: leftside;
+    background: black;
+    display: grid;
+    grid-template-areas:
+        'testing'
+        'rating'
+        'description';
+    grid-template-rows: 2fr 1fr 5fr;
+}
+
+movieTitle{
+    grid-area: testing;
+    /*background: green;*/
+}
+
+rating{
+    grid-area: rating;
+    /*background: red;*/
+}
+
+description{
+    grid-area: description;
+    /*background: purple;*/
+}
+
+.author{
+    position: relative;
+}
+
+rightside{
+    grid-area: rightside;
+    background: blue;
+}
+
+moviebar{
+    grid-area: moviebar;
+    background: orange;
+}
