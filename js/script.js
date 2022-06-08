@@ -89,6 +89,7 @@ const renderMovies = () => {
                 console.log(card);
                 card.addEventListener('click', function (){
                     console.log(this.id);
+                    this.style.border = '5px solid gold';
                 })
             })
 
