@@ -70,7 +70,14 @@ card{
     background: violet;
     border: black solid 5px;
     border-radius: 5%;
-
+}
+newCard{
+    justify-content: center;
+    height: 90%;
+    width: 180px;
+    background: violet;
+    border: black solid 5px;
+    border-radius: 5%;
 }
 
 buttonLeft{
