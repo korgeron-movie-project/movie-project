@@ -1,10 +1,10 @@
-*{
+* {
     margin: 0;
     padding: 0;
     color: white;
 }
 
-body{
+body {
     display: grid;
     height: 600px;
     width: auto;
@@ -12,10 +12,17 @@ body{
         'leftside rightside'
         'moviebar moviebar';
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows:repeat(2, 1fr) ;
+    grid-template-rows:repeat(2, 1fr);
 }
 
-leftside{
+.loadScreen {
+    background-image: url(../img/loading-screen-loading.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+leftside {
     padding: 1em;
     grid-area: leftside;
     background: black;
@@ -27,31 +34,31 @@ leftside{
     grid-template-rows: 2fr 1fr 5fr;
 }
 
-movieTitle{
+movieTitle {
     grid-area: testing;
     /*background: green;*/
 }
 
-rating{
+rating {
     grid-area: rating;
     /*background: red;*/
 }
 
-description{
+description {
     grid-area: description;
     /*background: purple;*/
 }
 
-.author{
+.author {
     position: relative;
 }
 
-rightside{
+rightside {
     grid-area: rightside;
     background: blue;
 }
 
-moviebar{
+moviebar {
     grid-area: moviebar;
     background: orange;
     width: 100%;
@@ -64,14 +71,15 @@ moviebar{
 }
 
 
-card{
+card {
     height: 90%;
     width: 180px;
     background: violet;
     border: black solid 5px;
     border-radius: 5%;
 }
-newCard{
+
+newCard {
     justify-content: center;
     height: 90%;
     width: 180px;
@@ -80,7 +88,7 @@ newCard{
     border-radius: 5%;
 }
 
-buttonLeft{
+buttonLeft {
     position: absolute;
     left: 0;
     bottom: -5%;
@@ -94,7 +102,7 @@ buttonLeft{
     transition: 1s;
 }
 
-buttonLeft:hover{
+buttonLeft:hover {
     opacity: 70%;
 }
 
@@ -104,7 +112,7 @@ buttonLeft > p {
     color: darkslategrey;
 }
 
-buttonRight{
+buttonRight {
     position: absolute;
     right: 0;
     bottom: -5%;
@@ -117,7 +125,8 @@ buttonRight{
     opacity: 0;
     transition: 1s;
 }
-buttonRight:hover{
+
+buttonRight:hover {
     opacity: 70%;
 }
 
