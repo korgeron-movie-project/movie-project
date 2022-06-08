@@ -1,15 +1,14 @@
-// fetch(URL)
-//     .then(res => res.json())
-//     .then((data) => console.log(data))
-//     .catch((error) =>{console.error(error);
-// });
-
+let body = document.querySelector('body');
+body.style.visibility = 'hidden';
+body.classList.add('loadScreen');
+const loadingScreen = setTimeout(function () {
+    document.querySelector('body').style.visibility = 'visible';
+    body.classList.remove('loadScreen');
+}, 1000);
 
 const movieData = () => {
     return fetch(URL).then(res => res.json())
 }
-console.log(movieData());
-
 const renderMovies = () => {
     let click = 0;
     console.log(click);
@@ -20,7 +19,7 @@ const renderMovies = () => {
             <card>
                 <button id="edit" type="button" data-id="${movie.id}">Edit</button>
                 <button id="Delete" type="button" data-id="${movie.id}">X</button>
-                <h3>Title: ${movie.title++}</h3>
+                <h3>Title: ${movie.title}</h3>
                 <div>Director: ${movie.director}</div>
                 <div>Ratings: ${movie.rating}</div>
                 <div>Genre: ${movie.genre}</div>
@@ -30,12 +29,6 @@ const renderMovies = () => {
 
         let movieBar = document.querySelector('#movie-bar');
         console.log(movieCard);
-        $("#edit").click(function (){
-            $('.edit-form').toggleClass('hide')
-        })
-        $("#finalEdit").click(function (){
-            $('.edit-form').toggleClass('hide')
-        })
         const fiveCards = (movies) => {
             let x = movies.filter((x, index) => index < i)
             movieBar.innerHTML = x.join('');
@@ -61,6 +54,12 @@ const renderMovies = () => {
                     movieBar.firstElementChild.remove();
                     movieBar.innerHTML += movies[i - 1];
                 }
+                document.querySelectorAll('card').forEach(function (card){
+                    console.log(card);
+                    card.addEventListener('click', function (){
+                        console.log(this.id);
+                    })
+                })
 
             })
             let buttonL = document.querySelector('buttonLeft');
@@ -88,51 +87,68 @@ const renderMovies = () => {
                 if (movieCard.length >= 5) {
                     movieBar.lastElementChild.remove();
                     movieBar.prepend(newFrontCard().firstElementChild);
-
                 }
-
+                document.querySelectorAll('card').forEach(function (card){
+                    console.log(card);
+                    card.addEventListener('click', function (){
+                        console.log(this.id);
+                    })
+                })
+                })
+                document.querySelectorAll('card').forEach(function (card){
+                    console.log(card);
+                    card.addEventListener('click', function (){
+                        console.log(this.id);
+                    })
             })
         }
         fiveCards(movieCard);
 
 
+        $("#edit").click(function () {
+            editForm($(this).attr('data-id'));
+            document.getElementById("finalEdit").setAttribute('data-id', $(this).attr('data-id'));
+            $('.edit-form').toggleClass('hide')
+        })
+        $("#finalEdit").click(function () {
+            $('.edit-form').toggleClass('hide')
+        })
     })
 }
 renderMovies();
 
-const editForm = () => {
-    fetch(`${URL}/${id}`).then((res) => res.json).then((data) => {
-        return `
-        <form class="edit-form hide">
-    <div class="container">
-        <div class="title-container">
-            <label for="title">Title </label>
-            <input type="text" id="title" name="title">
-        </div>
-        <div class="description-container">
-            <label for="description">Description </label>
-            <input type="text" id="description" name="description">
-        </div>
-        <div class="director-container">
-            <label for="director">Director: </label>
-            <input type="text" id="director" name="director">
-        </div>
-        <button data-id="${movie.id}" id="finalEdit">Edit Movie</button>
-    </div>
-</form>
-        
-        
-        
-
-        
-        `
-
-    })
+const editForm = (num) => {
+    fetch(`${URL}/${num}`).then((res) => res.json().then((data) => {
+        console.log(data);
+        document.getElementById('title').value = data.title;
+        document.getElementById('description').value = data.description;
+        document.getElementById('director').value = data.director;
+    }))
 }
 
 //Edit portion
-const editMovie = (movie) => {
-    const URL = "https://superb-cream-psychiatrist.glitch.me/movies/";
+$("#finalEdit").click(function (e) {
+    e.preventDefault()
+    let titleInput = document.getElementById("title");
+    let directorInput = document.getElementById("director");
+    let description = document.getElementById("description");
+    let editedMovie = {
+        title: titleInput.value,
+        director: directorInput.value,
+        description: description.value
+    }
+    let idnum = e.target.getAttribute("data-id");
+    console.log();
+    editMovie(editedMovie, idnum).then((res) => {
+        console.log(res)
+        console.log("hello")
+        renderMovies()
+    })
+})
+
+const editMovie = (movie, id) => {
+    const URL = "https://superb-cream-psychiatrist.glitch.me/movies";
+    console.log("HERE I AM",    `${URL}/${id}`);
     let options = {
         method: "PATCH",
         headers: {
@@ -142,27 +158,11 @@ const editMovie = (movie) => {
 
     }
 
-    return fetch(`${URL}/${movie.id}`, options).then(resp => resp.json())
+    return fetch(`${URL}/${id}`, options);
 }
 
-$("#finalEdit").click(function(e){
-    e.preventDefault()
-    let titleInput = document.getElementById("title")
-    let directorInput = document.getElementById("director")
-    let description = document.getElementById("description")
-    let editedMovie = {
-        title : titleInput.value,
-        director: directorInput.value,
-        description: description.value
 
-    }
-    console.log(e.target.getAttribute("data-id"))
-    editMovie(editedMovie).then((res) => {
-        console.log(res)
-        console.log("hello")
-        renderMovies()
-    })
-})
+
 //DELETE PORTION
 const deleteMovie = (id) => {
     const URL = "https://superb-cream-psychiatrist.glitch.me/movies/";
@@ -177,7 +177,7 @@ const deleteMovie = (id) => {
         .then(renderMovies)
 }
 //ADD PORTION
-const addMovies = () =>{
+const addMovies = () => {
     const URL = `https://superb-cream-psychiatrist.glitch.me/movies/`;
     let options = {
         method: "POST",
@@ -185,7 +185,7 @@ const addMovies = () =>{
             'Content-type': 'application/json'
         }
     }
-    return fetch (`${URL}/${id}`, options)
+    return fetch(`${URL}/${id}`, options)
         .then(() => console.log("The Movie was successfully added!"))
         .then(renderMovies)
 }
