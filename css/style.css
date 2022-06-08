@@ -15,7 +15,7 @@ body{
     grid-template-rows:repeat(2, 1fr) ;
 }
 .hide{
-    display: none;
+    display: none !important;
 }
 .edit-form{
     top: 0;
@@ -28,8 +28,6 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-
-
 }
 .container{
     background: rgba(204, 204, 204, 0.5);
@@ -175,5 +173,64 @@ card button {
     color: black;
 
 }
+buttonLeft {
+    position: absolute;
+    left: 0;
+    bottom: -5%;
+    height: 50%;
+    width: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: lightgrey;
+    opacity: 0;
+    transition: 1s;
+}
+buttonLeft:hover{
+    opacity: 70%;
+}
+
+buttonLeft > p {
+    position: absolute;
+    opacity: 100%;
+    color: darkslategrey;
+}
+
+buttonRight{
+    position: absolute;
+    right: 0;
+    bottom: -5%;
+    height: 50%;
+    width: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: lightgrey;
+    opacity: 0;
+    transition: 1s;
+}
+buttonRight:hover{
+    opacity: 70%;
+}
+
+buttonRight > p {
+    position: absolute;
+    opacity: 100%;
+    color: darkslategrey;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
