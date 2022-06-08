@@ -73,8 +73,11 @@ card{
 
 }
 
-buttons{
-    height: 100%;
+buttonLeft{
+    position: absolute;
+    left: 0;
+    bottom: -5%;
+    height: 50%;
     width: 2%;
     display: flex;
     align-items: center;
@@ -84,12 +87,35 @@ buttons{
     transition: 1s;
 }
 
-buttons:hover{
+buttonLeft:hover{
     opacity: 70%;
 }
 
-buttons > p {
+buttonLeft > p {
     position: absolute;
     opacity: 100%;
-    color: red;
+    color: darkslategrey;
+}
+
+buttonRight{
+    position: absolute;
+    right: 0;
+    bottom: -5%;
+    height: 50%;
+    width: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: lightgrey;
+    opacity: 0;
+    transition: 1s;
+}
+buttonRight:hover{
+    opacity: 70%;
+}
+
+buttonRight > p {
+    position: absolute;
+    opacity: 100%;
+    color: darkslategrey;
 }
