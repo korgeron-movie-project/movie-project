@@ -219,6 +219,11 @@ buttonRight > p {
     color: darkslategrey;
 }
 
+.loadScreen {
+    background-image: url(../img/loading-screen-loading.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
 
 
