@@ -65,7 +65,7 @@ const renderMovies = () => {
             })
             let buttonL = document.querySelector('buttonLeft');
 
-
+            buttonL.style.display = "none";
 
             buttonL.addEventListener('click', function () {
                 console.log(i)
