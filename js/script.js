@@ -1,7 +1,7 @@
 let body = document.querySelector('body');
 body.style.visibility = 'hidden';
 body.classList.add('loadScreen');
-const loadingScreen = setTimeout(function (){
+const loadingScreen = setTimeout(function () {
     document.querySelector('body').style.visibility = 'visible';
     body.classList.remove('loadScreen');
 }, 1000);
@@ -10,37 +10,31 @@ const movieData = () => {
 }
 
 const renderMovies = () => {
-let click = 0;
-console.log(click);
+    let click = 0;
     let i = 5;
     movieData().then((data) => {
         let movieCard = data.map((movie) => {
-
-            // console.log(movie);
             return `
-            <card>
+            <card id="${movie.id}">
                 <h3>Title: ${movie.id}</h3>
             </card>
             `
-
         })
+
+
         let movieBar = document.querySelector('#movie-bar');
+
 
         const fiveCards = (movies) => {
             let x = movies.filter((x, index) => index < i)
             movieBar.innerHTML = x.join('');
-            console.log(movies.length);
             let buttonR = document.querySelector('buttonRight');
             buttonR.addEventListener('click', function () {
                 click++;
                 if (click !== 0) {
-                    console.log('its not 0 anymore');
                     buttonL.style.display = 'flex';
                 }
-                console.log(click);
-                console.log(i)
                 i++;
-                console.log(i);
                 if (click < movieCard.length - 1) {
                     buttonR.style.display = 'none';
                 }
@@ -52,40 +46,56 @@ console.log(click);
                     movieBar.innerHTML += movies[i - 1];
                 }
 
+                document.querySelectorAll('card').forEach(function (card){
+                    console.log(card);
+                    card.addEventListener('click', function (){
+                        console.log(this.id);
+                    })
+                })
+
             })
             let buttonL = document.querySelector('buttonLeft');
-
-                buttonL.style.display = 'none';
-
+            buttonL.style.display = 'none';
             buttonL.addEventListener('click', function () {
-                console.log(i)
                 click--
                 i--;
                 if (click === 0) {
-                    console.log('its 0');
                     buttonL.style.display = 'none'
                 }
-
                 const newFrontCard = () => {
                     const card = document.createElement('card');
                     card.innerHTML = movies[i - 5];
-
-                    console.log(card.innerText);
-                    console.log(card)
                     return card
                 }
-                console.log(newFrontCard());
                 if (movieCard.length >= 5) {
                     movieBar.lastElementChild.remove();
                     movieBar.prepend(newFrontCard().firstElementChild);
 
                 }
 
+                document.querySelectorAll('card').forEach(function (card){
+                    console.log(card);
+                    card.addEventListener('click', function (){
+                        console.log(this.id);
+                    })
+                })
+
+
+
+
             })
+
+            document.querySelectorAll('card').forEach(function (card){
+                console.log(card);
+                card.addEventListener('click', function (){
+                    console.log(this.id);
+                })
+            })
+
+
+
         }
         fiveCards(movieCard);
-
-
     })
 }
 renderMovies();
