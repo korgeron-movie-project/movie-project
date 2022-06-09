@@ -1,10 +1,8 @@
 let body = document.querySelector('body');
 body.style.visibility = 'hidden';
 body.classList.add('loadScreen');
-const loadingScreen = setTimeout(function () {
-    document.querySelector('body').style.visibility = 'visible';
-    body.classList.remove('loadScreen');
-}, 1000);
+
+
 const movieData = () => {
     return fetch(URL).then(res => res.json());
 }
@@ -13,10 +11,11 @@ const renderMovies = () => {
     let click = 0;
     let i = 5;
     movieData().then((data) => {
+        console.log(data);
         let movieCard = data.map((movie) => {
             return `
             <card id="${movie.id}">
-                <h3>Title: ${movie.id}</h3>
+                <h3>Title: ${movie.title}</h3>
             </card>
             `
         })
@@ -46,9 +45,9 @@ const renderMovies = () => {
                     movieBar.innerHTML += movies[i - 1];
                 }
 
-                document.querySelectorAll('card').forEach(function (card){
+                document.querySelectorAll('card').forEach(function (card) {
                     console.log(card);
-                    card.addEventListener('click', function (){
+                    card.addEventListener('click', function () {
                         console.log(this.id);
                     })
                 })
@@ -73,33 +72,35 @@ const renderMovies = () => {
 
                 }
 
-                document.querySelectorAll('card').forEach(function (card){
+                document.querySelectorAll('card').forEach(function (card) {
                     console.log(card);
-                    card.addEventListener('click', function (){
+                    card.addEventListener('click', function () {
                         console.log(this.id);
                     })
                 })
 
-
-
-
             })
-
-            document.querySelectorAll('card').forEach(function (card){
+            document.querySelectorAll('card').forEach(function (card) {
                 console.log(card);
-                card.addEventListener('click', function (){
-                    console.log(this.id);
-                    this.style.border = '5px solid gold';
+                card.addEventListener('click', function () {
+
+
+
                 })
             })
-
-
-
+            document.querySelector('body').style.visibility = 'visible';
+            body.classList.remove('loadScreen');
         }
         fiveCards(movieCard);
     })
 }
 renderMovies();
 
-
+// let str = `http://www.omdbapi.com/?t=&apikey=69918388;`
+//
+// function getMovie(titlename){
+//     fetch(`http://www.omdbapi.com/?t=${titlename}&apikey=69918388`).then(res => res.json().then(finale => console.log(finale)));
+//
+//     }
+// getMovie('all');
 
