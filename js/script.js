@@ -1,10 +1,7 @@
 let body = document.querySelector('body');
 body.style.visibility = 'hidden';
 body.classList.add('loadScreen');
-const loadingScreen = setTimeout(function () {
-    document.querySelector('body').style.visibility = 'visible';
-    body.classList.remove('loadScreen');
-}, 1000);
+
 
 const movieData = () => {
     return fetch(URL).then(res => res.json())
@@ -101,6 +98,8 @@ const renderMovies = () => {
                         console.log(this.id);
                     })
             })
+            document.querySelector('body').style.visibility = 'visible';
+            body.classList.remove('loadScreen');
         }
         fiveCards(movieCard);
 
