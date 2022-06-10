@@ -1,7 +1,6 @@
 * {
     margin: 0;
     padding: 0;
-    color: white;
 }
 
 body {
@@ -9,16 +8,25 @@ body {
     height: 600px;
     width: auto;
     grid-template-areas:
+        'leftside navbar'
         'leftside rightside'
         'moviebar moviebar';
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows:repeat(2, 1fr);
+    grid-template-rows: 1fr repeat(2, 6fr);
 }
 
 .loadScreen {
     background-image: url(../img/loading-screen-loading.gif);
     background-position: center;
     background-repeat: no-repeat;
+}
+
+navBar{
+    grid-area: navbar;
+    display: flex;
+    justify-content: flex-end;
+    background: black;
+    align-items: center;
 }
 
 
@@ -32,21 +40,19 @@ leftside {
         'rating'
         'description';
     grid-template-rows: 2fr 1fr 5fr;
+    color: white;
 }
 
 movieTitle {
     grid-area: testing;
-    /*background: green;*/
 }
 
 rating {
     grid-area: rating;
-    /*background: red;*/
 }
 
 description {
     grid-area: description;
-    /*background: purple;*/
 }
 
 .author {
@@ -55,12 +61,11 @@ description {
 
 rightside {
     grid-area: rightside;
-    background: blue;
+    background: black;
 }
 
 moviebar {
     grid-area: moviebar;
-    background: orange;
     width: 100%;
     height: 100%;
     background: black;
