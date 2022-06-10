@@ -8,8 +8,8 @@ body {
     height: 600px;
     width: auto;
     grid-template-areas:
-        'leftside navbar'
-        'leftside rightside'
+        'rightside navbar'
+        'rightside leftside'
         'moviebar moviebar';
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr repeat(2, 6fr);

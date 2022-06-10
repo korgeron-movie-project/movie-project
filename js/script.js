@@ -20,7 +20,7 @@ document.querySelector('#button').addEventListener('click', () => {
         console.log(search.value);
 
         const movieData = () => {
-            return fetch(`http://www.omdbapi.com/?s=${search.value}&page=1&apikey=69918388`).then(res => res.json()).then(data => data.Search);
+            return fetch(`http://www.omdbapi.com/?s=${search.value}&page=1&type=movie&apikey=69918388`).then(res => res.json()).then(data => data.Search);
         }
 
         const renderMovies = () => {
@@ -30,6 +30,7 @@ document.querySelector('#button').addEventListener('click', () => {
                 console.log(data);
                 const movieTitle = document.querySelector('movieTitle');
                 const rightSide = document.querySelector('rightSide');
+
                 rightSide.innerHTML = `<img style="height: 280px; width: 100%" src="${data[0].Poster}" alt="failed to load" />`
                 movieTitle.firstElementChild.innerHTML = data[0].Title;
                 if (counter > 1) {
@@ -37,17 +38,19 @@ document.querySelector('#button').addEventListener('click', () => {
                     movieTitle.firstElementChild.innerHTML = '';
                     movieTitle.firstElementChild.innerHTML = data[0].Title;
                 }
+
                 let movieCard = data.map((movie) => {
                     console.log(movie);
                     return `
             <card id="${movie.imdbID}">
-                <img style="height: 100%; width: 100%" src="${movie.Poster}" alt="movie-image">
+                <img style="height: 100%; width: 100%;" src="${movie.Poster}" alt="failed to load">
             </card>
             `
                 })
 
 
                 const movieBar = document.querySelector('#movie-bar');
+
 
 
                 const fiveCards = (movies) => {
@@ -63,6 +66,7 @@ document.querySelector('#button').addEventListener('click', () => {
                         if (click < movieCard.length - 1) {
                             buttonR.style.display = 'none';
                         }
+                        console.log(i);
                         if (i < movieCard.length) {
                             buttonR.style.display = 'flex';
                         }
@@ -71,21 +75,37 @@ document.querySelector('#button').addEventListener('click', () => {
                             movieBar.innerHTML += movies[i - 1];
                         }
 
+
+
                         document.querySelectorAll('card').forEach(function (card) {
-                            // console.log(card);
+
                             card.addEventListener('click', function () {
-                                console.log(this.id);
+
                             })
                         })
 
                     })
+                    const card = document.querySelector('card');
+                    fetch(`http://www.omdbapi.com/?i=${card.id}&apikey=69918388`).then(res => res.json()).then(alldata => {
+                        console.log(alldata);
+                        document.querySelector('.rating').innerHTML = 'Rated: ' + alldata.Rated
+                        document.querySelector('.description').innerHTML = 'Description: '+'<br>' + alldata.Plot;
+                        document.querySelector('.director').innerHTML = 'Director: ' + '<br>' + alldata.Director + '<br>' + '<br>' + 'Actors: '+ '<br>' + alldata.Actors;
+                    });
+
+
+
+
                     let buttonL = document.querySelector('buttonLeft');
                     buttonL.style.display = 'none';
                     buttonL.addEventListener('click', function () {
-                        click--
+                        click--;
                         i--;
                         if (click === 0) {
                             buttonL.style.display = 'none'
+                        }
+                        if (i < movieCard.length) {
+                            buttonR.style.display = 'flex';
                         }
                         const newFrontCard = () => {
                             const card = document.createElement('card');
@@ -99,19 +119,18 @@ document.querySelector('#button').addEventListener('click', () => {
                         }
 
                         document.querySelectorAll('card').forEach(function (card) {
-                            console.log(card);
                             card.addEventListener('click', function () {
-                                console.log(this.id);
                             })
                         })
 
                     })
                     document.querySelectorAll('card').forEach(function (card) {
                         card.addEventListener('click', function () {
-
+                            fetch(`http://www.omdbapi.com/?i=${card.id}&apikey=69918388`).then(res => res.json()).then(alldata => console.log(alldata));
 
                         })
                     })
+
                     document.querySelector('body').style.visibility = 'visible';
                     body.classList.remove('loadScreen');
                 }
