@@ -5,7 +5,7 @@
 
 body {
     display: grid;
-    height: 600px;
+    height: 900px;
     width: auto;
     grid-template-areas:
         'navbarL navbarR'
@@ -40,10 +40,99 @@ navBarL{
 #home{
     justify-self: flex-start;
 }
+.hide{
+    display: none !important;
+}
+.edit-form{
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .7);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    background: rgba(204, 204, 204, 0.5);
+    border: 1px solid black;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    color: black;
+    position: relative;
+    margin: 1em;
+    padding: 1em;
+    width: 25%;
+    border-radius: 10px;
+}
+.title-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: black;
 
+}
+#title{
+    margin-top: 1em;
+    border-radius: 10px;
+    background: lightgray;
+    color: black;
+    padding: 10px;
+    width: 75%;
+}
+.description-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: black;
+}
+#description{
+    margin-top: 1em;
+    border-radius: 10px;
+    background: lightgray;
+    color: black;
+    padding: 10px;
+    width: 75%;
+    overflow-wrap: initial;
+}
 
+#director{
+    margin-top: 1em;
+    border-radius: 10px;
+    background: lightgray;
+    color: black;
+    padding: 10px;
+    width: 75%;
+}
+.director-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 
-leftside {
+}
+#finalEdit{
+    margin-top: 3em;
+    background: darkgrey;
+    color: white;
+    padding: 3px;
+    border-radius: 10px;
+}
+#finalEdit:hover {
+    background: dodgerblue;
+    color: black;
+}
+leftside{
     padding: 1em;
     grid-area: leftside;
     background: black;
@@ -89,15 +178,6 @@ moviebar {
 
 }
 
-
-card {
-    height: 90%;
-    width: 180px;
-    background: violet;
-    border: black solid 5px;
-    border-radius: 5%;
-}
-
 newCard {
     justify-content: center;
     height: 90%;
@@ -121,8 +201,27 @@ buttonLeft {
     transition: 1s;
 }
 
+card{
+    height: 60%;
+    width: 230px;
+    background: violet;
+    border: black solid 5px;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column ;
+    position: relative;
+}
+
 buttonLeft:hover {
     opacity: 70%;
+}
+  
+card button {
+    height: 30px;
+    width: 30px;
+    margin-left: auto;
+    opacity: 60%;
+    color: black;
 }
 
 buttonLeft > p {
@@ -132,6 +231,35 @@ buttonLeft > p {
 }
 
 buttonRight {
+    position: absolute;
+    right: 0;
+}
+  
+buttonLeft {
+    position: absolute;
+    left: 0;
+    bottom: -5%;
+    height: 50%;
+    width: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: lightgrey;
+    opacity: 0;
+    transition: 1s;
+}
+  
+buttonLeft:hover{
+    opacity: 70%;
+}
+
+buttonLeft > p {
+    position: absolute;
+    opacity: 100%;
+    color: darkslategrey;
+}
+
+buttonRight{
     position: absolute;
     right: 0;
     bottom: -5%;
@@ -144,8 +272,7 @@ buttonRight {
     opacity: 0;
     transition: 1s;
 }
-
-buttonRight:hover {
+buttonRight:hover{
     opacity: 70%;
 }
 
@@ -158,3 +285,10 @@ buttonRight > p {
 .active{
     border: 5px solid gold;
 }
+
+.loadScreen {
+    background-image: url(../img/loading-screen-loading.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+

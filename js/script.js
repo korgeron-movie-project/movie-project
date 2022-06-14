@@ -3,6 +3,7 @@ body.style.visibility = 'hidden';
 body.classList.add('loadScreen');
 
 
+
 //TODO: BUTTON TO RELOAD THE PAGE
 document.querySelector('#home').addEventListener('click', function () {
     document.location.reload();
@@ -17,6 +18,7 @@ const movieData = () => {
 console.log(movieData());
 const renderMovies = () => {
     let click = 0;
+
     let i = 5;
     movieData().then((data) => {
         console.log(data);
@@ -24,11 +26,13 @@ const renderMovies = () => {
         let movieCard = data.map((movie) => {
             console.log(movie);
             return `
+
             <card id="${movie.imdbID}">
                 <img style="height: 100%; width: 100%;" src="${movie.Poster}" alt="failed to load">
             </card>
             `
         })
+
 
         //TODO: DELETE MOVIE FUNCTIONALITY
         const deleteMovie = (id) => {
@@ -50,21 +54,25 @@ const renderMovies = () => {
         })
 
 
+
         const movieBar = document.querySelector('#movie-bar');
 
         const fiveCards = (movies) => {
             let x = movies.filter((x, index) => index < i);
             movieBar.innerHTML = x.join('');
+
             let buttonR = document.querySelector('buttonRight');
             buttonR.addEventListener('click', function () {
                 click++;
                 if (click !== 0) {
+
                     buttonL.style.display = 'flex';
                 }
                 i++;
                 if (click < movieCard.length - 1) {
                     buttonR.style.display = 'none';
                 }
+
 
                 if (i < movieCard.length) {
                     buttonR.style.display = 'flex';
@@ -73,6 +81,7 @@ const renderMovies = () => {
                     movieBar.firstElementChild.remove();
                     movieBar.innerHTML += movies[i - 1];
                 }
+
 
             })
 
@@ -92,19 +101,24 @@ const renderMovies = () => {
                     card.innerHTML = movies[i - 5];
                     return card
                 }
+
                 if (movieCard.length >= 5) {
                     movieBar.lastElementChild.remove();
                     movieBar.prepend(newFrontCard().firstElementChild);
                 }
+
             })
 
             document.querySelector('body').style.visibility = 'visible';
             body.classList.remove('loadScreen');
         }
         fiveCards(movieCard);
+
+
     })
 }
 renderMovies();
+
 
 //TODO: THIS IS FOR THE SEARCH MOVIE PORTION
 
@@ -301,6 +315,7 @@ document.querySelector('#button').addEventListener('click', () => {
 
                             })
                         })
+
 
                     })
                     document.querySelectorAll('card').forEach(function (card) {
