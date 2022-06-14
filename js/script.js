@@ -8,8 +8,6 @@ document.querySelector('#home').addEventListener('click', function () {
     document.location.reload();
 })
 
-
-
 //TODO: THIS IS FOR THE MAIN PAGE
 
 
@@ -108,28 +106,6 @@ const renderMovies = () => {
 }
 renderMovies();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //TODO: THIS IS FOR THE SEARCH MOVIE PORTION
 
 let counter = 0;
@@ -196,12 +172,6 @@ document.querySelector('#button').addEventListener('click', () => {
                     }
                     addMovie(data);
                 })
-
-
-
-
-
-
 
 
 
