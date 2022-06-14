@@ -182,7 +182,7 @@ newCard {
     justify-content: center;
     height: 90%;
     width: 180px;
-    background: violet;
+    background: lightgrey;
     border: black solid 5px;
     border-radius: 5%;
 }
@@ -199,6 +199,16 @@ buttonLeft {
     background: lightgrey;
     opacity: 0;
     transition: 1s;
+}
+
+buttonLeft:hover {
+    opacity: 70%;
+}
+
+buttonLeft > p {
+    position: absolute;
+    opacity: 100%;
+    color: darkslategrey;
 }
 
 card{
@@ -212,51 +222,12 @@ card{
     position: relative;
 }
 
-buttonLeft:hover {
-    opacity: 70%;
-}
-  
 card button {
     height: 30px;
     width: 30px;
     margin-left: auto;
     opacity: 60%;
     color: black;
-}
-
-buttonLeft > p {
-    position: absolute;
-    opacity: 100%;
-    color: darkslategrey;
-}
-
-buttonRight {
-    position: absolute;
-    right: 0;
-}
-  
-buttonLeft {
-    position: absolute;
-    left: 0;
-    bottom: -5%;
-    height: 50%;
-    width: 2%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: lightgrey;
-    opacity: 0;
-    transition: 1s;
-}
-  
-buttonLeft:hover{
-    opacity: 70%;
-}
-
-buttonLeft > p {
-    position: absolute;
-    opacity: 100%;
-    color: darkslategrey;
 }
 
 buttonRight{
@@ -286,9 +257,4 @@ buttonRight > p {
     border: 5px solid gold;
 }
 
-.loadScreen {
-    background-image: url(../img/loading-screen-loading.gif);
-    background-position: center;
-    background-repeat: no-repeat;
-}
 
