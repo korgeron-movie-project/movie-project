@@ -3,47 +3,77 @@ body.style.visibility = 'hidden';
 body.classList.add('loadScreen');
 
 
+
+//TODO: BUTTON TO RELOAD THE PAGE
+document.querySelector('#home').addEventListener('click', function () {
+    document.location.reload();
+})
+
+//TODO: THIS IS FOR THE MAIN PAGE
+
+
 const movieData = () => {
-    return fetch(URL).then(res => res.json())
+    return fetch("https://truthful-field-mice.glitch.me/movies").then(res => res.json())
 }
+console.log(movieData());
 const renderMovies = () => {
     let click = 0;
-    console.log(click);
+
     let i = 5;
     movieData().then((data) => {
-        let movieCard = data.map((movie) => {
-            return `
-            <card>
-                <button id="edit" type="button" data-id="${movie.id}">Edit</button>
-                <button id="Delete" type="button" data-id="${movie.id}">X</button>
-                <h3>Title: ${movie.title}</h3>
-                <div>Director: ${movie.director}</div>
-                <div>Ratings: ${movie.rating}</div>
-                <div>Genre: ${movie.genre}</div>
-            </card>`
+        console.log(data);
 
+        let movieCard = data.map((movie) => {
+            console.log(movie);
+            return `
+
+            <card id="${movie.imdbID}">
+                <img style="height: 100%; width: 100%;" src="${movie.Poster}" alt="failed to load">
+            </card>
+            `
         })
 
-        let movieBar = document.querySelector('#movie-bar');
-        console.log(movieCard);
+
+        //TODO: DELETE MOVIE FUNCTIONALITY
+        const deleteMovie = (id) => {
+            const URL = "https://truthful-field-mice.glitch.me/movies";
+            let options = {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            return fetch(`${URL}/${id}`, options).then(() => console.log("DELETE SUCCESS!"))
+        }
+
+        document.querySelector('rightside').innerHTML+= `<button id="delete" style="height: 10%">DELETE</button> <input id="del" style="height: 8.75%" type="text" />`
+        document.querySelector('#delete').addEventListener('click', function (){
+            let movieDel = document.querySelector('#del');
+            console.log(movieDel.value);
+            deleteMovie(movieDel.value);
+        })
+
+
+
+        const movieBar = document.querySelector('#movie-bar');
+
         const fiveCards = (movies) => {
-            let x = movies.filter((x, index) => index < i)
+            let x = movies.filter((x, index) => index < i);
             movieBar.innerHTML = x.join('');
-            console.log(movies.length);
+
             let buttonR = document.querySelector('buttonRight');
             buttonR.addEventListener('click', function () {
                 click++;
                 if (click !== 0) {
-                    console.log('its not 0 anymore');
+
                     buttonL.style.display = 'flex';
                 }
-                console.log(click);
-                console.log(i)
                 i++;
-                console.log(i);
                 if (click < movieCard.length - 1) {
                     buttonR.style.display = 'none';
                 }
+
+
                 if (i < movieCard.length) {
                     buttonR.style.display = 'flex';
                 }
@@ -51,154 +81,270 @@ const renderMovies = () => {
                     movieBar.firstElementChild.remove();
                     movieBar.innerHTML += movies[i - 1];
                 }
-                document.querySelectorAll('card').forEach(function (card){
-                    console.log(card);
-                    card.addEventListener('click', function (){
-                        console.log(this.id);
-                    })
-                })
+
 
             })
+
             let buttonL = document.querySelector('buttonLeft');
-
-            buttonL.style.display = "none";
-
+            buttonL.style.display = 'none';
             buttonL.addEventListener('click', function () {
-                console.log(i)
-                click--
+                click--;
                 i--;
                 if (click === 0) {
-                    console.log('its 0');
                     buttonL.style.display = 'none'
                 }
-
+                if (i < movieCard.length) {
+                    buttonR.style.display = 'flex';
+                }
                 const newFrontCard = () => {
                     const card = document.createElement('card');
                     card.innerHTML = movies[i - 5];
-
-                    console.log(card.innerText);
-                    console.log(card)
                     return card
                 }
-                console.log(newFrontCard());
+
                 if (movieCard.length >= 5) {
                     movieBar.lastElementChild.remove();
                     movieBar.prepend(newFrontCard().firstElementChild);
                 }
-                document.querySelectorAll('card').forEach(function (card){
-                    console.log(card);
-                    card.addEventListener('click', function (){
-                        console.log(this.id);
-                    })
-                })
-                })
-                document.querySelectorAll('card').forEach(function (card){
-                    console.log(card);
-                    card.addEventListener('click', function (){
-                        console.log(this.id);
-                    })
+
             })
+
             document.querySelector('body').style.visibility = 'visible';
             body.classList.remove('loadScreen');
         }
         fiveCards(movieCard);
 
 
-        $("#edit").click(function () {
-            editForm($(this).attr('data-id'));
-            document.getElementById("finalEdit").setAttribute('data-id', $(this).attr('data-id'));
-            $('.edit-form').toggleClass('hide')
-        })
-        $("#finalEdit").click(function () {
-            $('.edit-form').toggleClass('hide')
-        })
     })
 }
 renderMovies();
 
-const editForm = (num) => {
-    fetch(`${URL}/${num}`).then((res) => res.json().then((data) => {
-        console.log(data);
-        document.getElementById('title').value = data.title;
-        document.getElementById('description').value = data.description;
-        document.getElementById('director').value = data.director;
-    }))
-}
 
-//Edit portion
-$("#finalEdit").click(function (e) {
-    e.preventDefault()
-    let titleInput = document.getElementById("title");
-    let directorInput = document.getElementById("director");
-    let description = document.getElementById("description");
-    let editedMovie = {
-        title: titleInput.value,
-        director: directorInput.value,
-        description: description.value
+//TODO: THIS IS FOR THE SEARCH MOVIE PORTION
+
+let counter = 0;
+let searchBar = document.querySelector('#query');
+document.querySelector('#button').addEventListener('click', () => {
+
+    counter++
+
+    let body = document.querySelector('body');
+    body.style.visibility = 'hidden';
+    body.classList.add('loadScreen');
+
+
+    const searchMovies = (search) => {
+        console.log(search.value);
+
+        const movieData = () => {
+            return fetch(`http://www.omdbapi.com/?s=${search.value}&page=1&type=movie&apikey=69918388`).then(res => res.json()).then(data => data.Search);
+        }
+
+        const renderMovies = () => {
+            let click = 0;
+            let i = 5;
+            movieData().then((data) => {
+                console.log(data);
+                const movieTitle = document.querySelector('movieTitle');
+                const rightSide = document.querySelector('rightSide');
+
+                rightSide.innerHTML = `<img style="height: 280px; width: 100%" src="${data[0].Poster}" alt="failed to load" />
+                                        <button id="addMovie" style="justify-self: end; text-align: center" type="button"> a<br>d <br>d</button>`
+                movieTitle.firstElementChild.innerHTML = data[0].Title;
+                if (counter > 1) {
+                    counter = 0;
+                    movieTitle.firstElementChild.innerHTML = '';
+                    movieTitle.firstElementChild.innerHTML = data[0].Title;
+                }
+
+
+
+                let movieCard = data.map((movie) => {
+                    console.log(movie);
+                    return `
+            <card id="${movie.imdbID}">
+                <img style="height: 100%; width: 100%;" src="${movie.Poster}" alt="failed to load">
+            </card>
+            `
+                })
+
+                document.querySelector('#addMovie').addEventListener('click', function (){
+                    console.log(data[0].Title);
+                    //TODO: ADD POST METHOD HERE
+                    function addMovie(movie){
+                        console.log(movie);
+                       fetch("https://truthful-field-mice.glitch.me/movies", {
+                            method: "POST",
+                            body: JSON.stringify({
+                                Title: movie[0].Title,
+                                Poster: movie[0].Poster
+                            }),
+                           headers:{
+                               'Content-Type': 'application/json'
+                           }
+                        }).then((res)=> res.json()).then(data => console.log(data))
+                    }
+                    addMovie(data);
+                })
+
+
+
+                const movieBar = document.querySelector('#movie-bar');
+
+
+                const fiveCards = (movies) => {
+                    let x = movies.filter((x, index) => index < i);
+                    movieBar.innerHTML = x.join('');
+                    let buttonR = document.querySelector('buttonRight');
+                    buttonR.addEventListener('click', function () {
+                        click++;
+                        if (click !== 0) {
+                            buttonL.style.display = 'flex';
+                        }
+                        i++;
+                        if (click < movieCard.length - 1) {
+                            buttonR.style.display = 'none';
+                        }
+                        console.log(i);
+                        if (i < movieCard.length) {
+                            buttonR.style.display = 'flex';
+                        }
+                        if (movieCard.length >= 5) {
+                            movieBar.firstElementChild.remove();
+                            movieBar.innerHTML += movies[i - 1];
+                        }
+
+                        document.querySelectorAll('card').forEach(function (card) {
+                            card.addEventListener('click', function () {
+
+                                fetch(`http://www.omdbapi.com/?i=${card.id}&apikey=69918388`).then(res => res.json()).then(alldata => {
+                                    console.log(alldata);
+                                    rightSide.innerHTML = `<img style="height: 280px; width: 100%" src="${alldata.Poster}" alt="failed to load" /> <button id="addMovie" style="justify-self: end; text-align: center" type="button"> a<br>d <br>d</button>`
+                                    document.querySelector('movieTitle').firstElementChild.innerHTML = alldata.Title;
+                                    document.querySelector('.rating').innerHTML = 'Rated: ' + alldata.Rated;
+                                    document.querySelector('.description').innerHTML = 'Description: ' + '<br>' + alldata.Plot;
+                                    document.querySelector('.director').innerHTML = 'Director: ' + '<br>' + alldata.Director + '<br>' + '<br>' + 'Actors: ' + '<br>' + alldata.Actors;
+
+                                    document.querySelector('#addMovie').addEventListener('click', function (){
+                                        console.log(data[0].Title);
+                                        //TODO: ADD POST METHOD HERE
+                                        function addMovie(movie){
+                                            console.log(movie);
+                                            fetch("https://truthful-field-mice.glitch.me/movies", {
+                                                method: "POST",
+                                                body: JSON.stringify({
+                                                    Title: alldata.Title,
+                                                    Poster: alldata.Poster
+                                                }),
+                                                headers:{
+                                                    'Content-Type': 'application/json'
+                                                }
+                                            }).then((res)=> res.json()).then(data => console.log(data))
+                                        }
+                                        addMovie(data);
+                                    })
+                                })
+
+                            })
+
+                        })
+
+                    })
+                    const card = document.querySelector('card');
+                    fetch(`http://www.omdbapi.com/?i=${card.id}&apikey=69918388`).then(res => res.json()).then(alldata => {
+                        console.log(alldata);
+                        document.querySelector('.rating').innerHTML = 'Rated: ' + alldata.Rated
+                        document.querySelector('.description').innerHTML = 'Description: ' + '<br>' + alldata.Plot;
+                        document.querySelector('.director').innerHTML = 'Director: ' + '<br>' + alldata.Director + '<br>' + '<br>' + 'Actors: ' + '<br>' + alldata.Actors;
+                    });
+
+
+                    let buttonL = document.querySelector('buttonLeft');
+                    buttonL.style.display = 'none';
+                    buttonL.addEventListener('click', function () {
+                        click--;
+                        i--;
+                        console.log(click);
+                        if (click === 0) {
+                            buttonL.style.display = 'none'
+                        }
+                        if (i < movieCard.length) {
+                            buttonR.style.display = 'flex';
+                        }
+                        const newFrontCard = () => {
+                            const card = document.createElement('card');
+                            card.innerHTML = movies[i - 5];
+                            return card
+                        }
+                        if (movieCard.length >= 5) {
+                            movieBar.lastElementChild.remove();
+                            movieBar.prepend(newFrontCard().firstElementChild);
+
+                        }
+
+                        document.querySelectorAll('card').forEach(function (card) {
+                            card.addEventListener('click', function () {
+
+                                fetch(`http://www.omdbapi.com/?i=${card.id}&apikey=69918388`).then(res => res.json()).then(alldata => {
+                                    console.log(alldata);
+                                    rightSide.innerHTML = `<img style="height: 280px; width: 100%" src="${alldata.Poster}" alt="failed to load" /> <button id="addMovie" style="justify-self: end; text-align: center" type="button"> a<br>d <br>d</button>`
+                                    document.querySelector('movieTitle').firstElementChild.innerHTML = alldata.Title;
+                                    document.querySelector('.rating').innerHTML = 'Rated: ' + alldata.Rated;
+                                    document.querySelector('.description').innerHTML = 'Description: ' + '<br>' + alldata.Plot;
+                                    document.querySelector('.director').innerHTML = 'Director: ' + '<br>' + alldata.Director + '<br>' + '<br>' + 'Actors: ' + '<br>' + alldata.Actors;
+
+                                    document.querySelector('#addMovie').addEventListener('click', function (){
+                                        console.log(data[0].Title);
+                                        //TODO: ADD POST METHOD HERE
+                                        function addMovie(movie){
+                                            console.log(movie);
+                                            fetch("https://truthful-field-mice.glitch.me/movies", {
+                                                method: "POST",
+                                                body: JSON.stringify({
+                                                    Title: alldata.Title,
+                                                    Poster: alldata.Poster
+                                                }),
+                                                headers:{
+                                                    'Content-Type': 'application/json'
+                                                }
+                                            }).then((res)=> res.json()).then(data => console.log(data))
+                                        }
+                                        addMovie(data);
+                                    })
+                                })
+
+                            })
+                        })
+
+
+                    })
+                    document.querySelectorAll('card').forEach(function (card) {
+                        card.addEventListener('click', function () {
+
+                            fetch(`http://www.omdbapi.com/?i=${card.id}&apikey=69918388`).then(res => res.json()).then(alldata => {
+                                console.log(alldata);
+                                rightSide.innerHTML = `<img style="height: 280px; width: 100%" src="${alldata.Poster}" alt="failed to load" />
+                                <button id="addMovie" style="justify-self: end; text-align: center" type="button"> a<br>d <br>d</button>`
+                                document.querySelector('movieTitle').firstElementChild.innerHTML = alldata.Title;
+                                document.querySelector('.rating').innerHTML = 'Rated: ' + alldata.Rated;
+                                document.querySelector('.description').innerHTML = 'Description: ' + '<br>' + alldata.Plot;
+                                document.querySelector('.director').innerHTML = 'Director: ' + '<br>' + alldata.Director + '<br>' + '<br>' + 'Actors: ' + '<br>' + alldata.Actors;
+                            })
+
+                        })
+                    })
+
+                    document.querySelector('body').style.visibility = 'visible';
+                    body.classList.remove('loadScreen');
+                }
+                fiveCards(movieCard);
+            })
+        }
+        renderMovies();
+
+
     }
-    let idnum = e.target.getAttribute("data-id");
-    console.log();
-    editMovie(editedMovie, idnum).then((res) => {
-        console.log(res)
-        console.log("hello")
-        renderMovies()
-    })
+    searchMovies(searchBar)
 })
-
-const editMovie = (movie, id) => {
-    const URL = "https://superb-cream-psychiatrist.glitch.me/movies";
-    console.log("HERE I AM",    `${URL}/${id}`);
-    let options = {
-        method: "PATCH",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(movie)
-
-    }
-
-    return fetch(`${URL}/${id}`, options);
-}
-
-
-
-//DELETE PORTION
-const deleteMovie = (id) => {
-    const URL = "https://superb-cream-psychiatrist.glitch.me/movies/";
-    let options = {
-        method: "DELETE",
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-    return fetch(`${URL}/${id}`, options)
-        .then(() => console.log("The song has been deleted successfully"))
-        .then(renderMovies)
-}
-//ADD PORTION
-const addMovies = () => {
-    const URL = `https://superb-cream-psychiatrist.glitch.me/movies/`;
-    let options = {
-        method: "POST",
-        headers: {
-            'Content-type': 'application/json'
-        }
-    }
-    return fetch(`${URL}/${id}`, options)
-        .then(() => console.log("The Movie was successfully added!"))
-        .then(renderMovies)
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
