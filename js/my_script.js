@@ -19,6 +19,7 @@ let mainData = mainPageMovieData().then(data => data);
 const loadMainPageMovieData = (data) => {
     data.then(mainMovieArr => {
         console.log(mainMovieArr);
+
         let cards = document.querySelectorAll('card');
         let moviebar = document.querySelector('movieBar');
 
@@ -31,6 +32,17 @@ const loadMainPageMovieData = (data) => {
 
         //TODO: This creates the 5 cards
         mainMovieArr.forEach((movie, i) => {
+
+            //TODO: This adds left side image on page load
+            let leftSide = document.querySelector('rightside'); //do not change selector
+            leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${mainMovieArr[0].Poster}" alt="${mainMovieArr[0].Title}" />`
+
+            //TODO: This adds title to right side on page load
+            let title = document.querySelector('movieTitle');
+            title.firstElementChild.innerHTML = `${mainMovieArr[0].Title}`;
+
+
+            //TODO: Adds cards on page load
             if (((i) + start) < end) {
                 let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${mainMovieArr[(i) + change].Poster}"></card>`
                 moviebar.innerHTML += r;
@@ -41,6 +53,8 @@ const loadMainPageMovieData = (data) => {
         })
 
 
+
+
         let btnR = document.querySelector('buttonRight');
         let btnL = document.querySelector('buttonLeft');
 
@@ -48,6 +62,25 @@ const loadMainPageMovieData = (data) => {
         if (start <= 0) {
             btnL.style.display = 'none';
         }
+
+        //TODO: Click event for each card
+        document.querySelectorAll('card').forEach(function (card,i){
+            card.addEventListener('click', function (){
+
+                // console.log(card.firstElementChild.attributes[1].value);
+
+                //TODO: Adding image to the left side of the page
+                let leftSide = document.querySelector('rightside'); //do not change selector
+                leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />`
+
+                //TODO: This adds title to right side of the page
+                let title = document.querySelector('movieTitle');
+                title.firstElementChild.innerHTML = `${mainMovieArr[(i)].Title}`;
+
+            })
+        })
+
+
 
         //TODO: Right button click event
         btnR.addEventListener('click', () => {
@@ -69,13 +102,34 @@ const loadMainPageMovieData = (data) => {
 
             mainMovieArr.forEach((movie, i) => {
                 if (((i) + start) < end) {
-                    let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${mainMovieArr[(i) + change].Poster}"></card>`
+                    let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${mainMovieArr[(i) + change].Poster}" alt="${mainMovieArr[(i) + change].Title}"></card>`
 
                     moviebar.innerHTML += r;
                     //TODO:This loads in page for main page  (corresponds to the above load page functionality)
                     document.querySelector('body').style.visibility = 'visible';
                     body.classList.remove('loadScreen');
                 }
+            })
+
+            //TODO: Click event for each card
+            document.querySelectorAll('card').forEach(function (card, i){
+                card.addEventListener('click', function (){
+
+
+                    console.log(card.firstElementChild.attributes[2].nodeValue);
+
+
+                    //TODO: Adding image to the left side of the page
+                    let leftSide = document.querySelector('rightside'); //do not change selector
+                    leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />`
+
+                    //TODO: This adds title to right side of the page
+                    let title = document.querySelector('movieTitle');
+                    title.firstElementChild.innerHTML = `${card.firstElementChild.attributes[2].nodeValue}`;
+
+
+
+                })
             })
 
         })
@@ -99,14 +153,34 @@ const loadMainPageMovieData = (data) => {
 
             mainMovieArr.forEach((movie, i) => {
                 if (((i) + start) < end) {
-                    let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${mainMovieArr[(i) + change].Poster}"></card>`
+                    let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${mainMovieArr[(i) + change].Poster}" alt="${mainMovieArr[(i) + change].Title}"></card>`
 
                     moviebar.innerHTML += r;
                     //TODO:This loads in page for main page  (corresponds to the above load page functionality)
                     document.querySelector('body').style.visibility = 'visible';
                     body.classList.remove('loadScreen');
+
+
                 }
             })
+
+            //TODO: Click event for each card
+            document.querySelectorAll('card').forEach(function (card){
+                card.addEventListener('click', function (){
+
+                    // console.log(card.firstElementChild.attributes[1].value);
+
+                    //TODO: Adding image to the left side of the page
+                    let leftSide = document.querySelector('rightside'); //do not change selector
+                    leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />`
+
+                    //TODO: This adds title to right side of the page
+                    let title = document.querySelector('movieTitle');
+                    title.firstElementChild.innerHTML = `${card.firstElementChild.attributes[2].nodeValue}`;
+
+                })
+            })
+
         })
         return moviebar;
     })
