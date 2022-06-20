@@ -86,7 +86,13 @@ rightside {
     grid-area: rightside;
     /*background: paleturquoise;*/
     background: black;
-    display: flex;
+    display: grid;
+    grid-template-areas:
+            'movie-img delete'
+            'movie-img edit';
+    grid-template-columns: 15fr 1fr;
+
+
 }
 
 moviebar {
