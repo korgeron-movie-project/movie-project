@@ -1,12 +1,10 @@
 /*TODO:
    1. Add right side of page to start up / online pages
         a. needs "description"
-        b. needs "movie title"
-        c. needs "rating"
-        d. needs "author"
-   2. Create "ADD" button functionality to online page
-   3. Create "EDIT" button functionality to main page
-   4.
+        b. needs "rating"
+        c. needs "author"
+   2. Create "EDIT" button functionality to main page
+   3. Style CSS for main page for "IF ARRAY LENGTH WAS 0"
 */
 
 
@@ -296,31 +294,42 @@ loadMainPageMovieData(mainData);
 
 // ----------------------------------------------------------------- //
 
-//TODO: Online movie search data
+//todo: Online movie search data
 const onlineMovies = () => {
     let search = document.querySelector('#search-bar');
 
-    //TODO: This adds click event to search for online movies to add to current page
+    //todo: This adds click event to search for online movies to add to current page
     document.querySelector('#search-button').addEventListener('click', () => {
         console.log(search.value);
 
-        //TODO: Establishing the online search
+        //todo: Page loading for main screen
+        let body = document.querySelector('body');
+        body.style.visibility = 'hidden';
+        body.classList.add('loadScreen');
+
+        //todo: Establishing the online search
         fetch(`http://www.omdbapi.com/?s=${search.value}&page=1&type=movie&apikey=69918388`).then(res => res.json()).then(data => {
+
+            //todo: Results from search bar
             let movies = data.Search;
             let moviebar = document.querySelector('movieBar');
             moviebar.innerHTML = '';
             console.log(movies);
 
-            //TODO: Adding image to the left side of the page
+            //todo: Adding image to the left side of the page
             let leftSide = document.querySelector('rightside'); //do not change selector
             leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${movies[0].Poster}" alt="failed to load" /> <button id="addMovie" style="justify-self: end; text-align: center; width: 90%" type="button"> A<br>D<br>D</button>`
 
-            //TODO: This is the data to change in order to change the poster data for the cards on button clicks
+            //todo: Add title to the right side of the page
+            let movieTitle = document.querySelector('movieTitle > h1');
+            movieTitle.innerHTML = movies[0].Title;
+
+            //todo: This is the data to change in order to change the poster data for the cards on button clicks
             let start = 0;
             let end = 5;
             let change = 0;
 
-            //TODO: 5 cards for online search
+            //todo: 5 cards for online search
             movies.forEach((movie, i) => {
                 if (((i) + start) < end) {
                     let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${movies[(i) + change].Poster}"></card> `
@@ -331,15 +340,75 @@ const onlineMovies = () => {
                 }
             });
 
+            //todo:This loads in page for main page  (corresponds to the above load page functionality)
+            document.querySelector('body').style.visibility = 'visible';
+            body.classList.remove('loadScreen');
+
             let btnR = document.querySelector('buttonRight');
             let btnL = document.querySelector('buttonLeft');
 
-            //TODO: This is needed to hide left button on initial start
+            //todo: This is needed to hide left button on initial start
             if (start <= 0) {
                 btnL.style.display = 'none';
             }
 
-            //TODO: Right button click event
+            //todo: Click event for each card
+            document.querySelectorAll('card').forEach(function (card,i) {
+                card.addEventListener('click', function () {
+                    console.log(movies);
+
+                    //todo: Adding image to the left side of the page
+                    let leftSide = document.querySelector('rightside'); //do not change selector
+                    leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" /> <button id="addMovie" style="justify-self: end; text-align: center; width: 90%" type="button"> A<br>D<br>D</button>`
+
+                    //todo: This adds title to right side of the page
+                    movieTitle.innerHTML = movies[i].Title;
+
+                    //todo: This adds movies to the main page
+                    document.querySelector('#addMovie').addEventListener('click', function () {
+                        function addMovie(movie) {
+                            console.log(movie);
+                            fetch("https://truthful-field-mice.glitch.me/movies", {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    Title: movie[i].Title,
+                                    Poster: movie[i].Poster,
+                                    imdbID: movie[i].imdbID
+                                }),
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            }).then((res) => res.json()).then(data => console.log(data))
+                        }
+                        addMovie(movies);
+                    })
+                })
+            })
+
+            //todo: This adds movies to the main page
+            document.querySelector('#addMovie').addEventListener('click', function () {
+                function addMovie(movie) {
+                    console.log(movie);
+                    fetch("https://truthful-field-mice.glitch.me/movies", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            Title: movie[0].Title,
+                            Poster: movie[0].Poster,
+                            imdbID: movie[0].imdbID
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then((res) => res.json()).then(data => console.log(data))
+                }
+                addMovie(movies);
+            })
+
+            //todo: Trying to add specific movie search by id to add descriptions etc
+            // ---- code goes here ----
+            console.log(movies);
+
+            //todo: Right button click event
             btnR.addEventListener('click', () => {
                 moviebar.innerHTML = '';
                 console.log(++start);
@@ -362,28 +431,46 @@ const onlineMovies = () => {
                         let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${movies[(i) + change].Poster}"></card> `
 
                         moviebar.innerHTML += r;
-                        //TODO:This loads in page for main page  (corresponds to the above load page functionality)
+                        //todo:This loads in page for main page  (corresponds to the above load page functionality)
                         document.querySelector('body').style.visibility = 'visible';
                         body.classList.remove('loadScreen');
                     }
                 })
 
-                //TODO: Click event for each card
-                document.querySelectorAll('card').forEach(function (card) {
+                //todo: Click event for each card
+                document.querySelectorAll('card').forEach(function (card, i) {
                     card.addEventListener('click', function () {
 
-                        //TODO: Adding image to the left side of the page
+                        //todo: Adding image to the left side of the page
                         let leftSide = document.querySelector('rightside'); //do not change selector
                         leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" /> <button id="addMovie" style="justify-self: end; text-align: center; width: 90%" type="button"> A<br>D<br>D</button>`
 
-                        //TODO: This adds title to right side of the page
-                        // ---- code goes here ----
+                        //todo: This adds title to right side of the page
+                        movieTitle.innerHTML = movies[(i + change)].Title;
+
+                        //todo: This adds movies to the main page
+                        document.querySelector('#addMovie').addEventListener('click', function () {
+                            function addMovie(movie) {
+                                console.log(movie);
+                                fetch("https://truthful-field-mice.glitch.me/movies", {
+                                    method: "POST",
+                                    body: JSON.stringify({
+                                        Title: movie[(i + change)].Title,
+                                        Poster: movie[(i + change)].Poster,
+                                        imdbID: movie[(i + change)].imdbID
+                                    }),
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                }).then((res) => res.json()).then(data => console.log(data))
+                            }
+                            addMovie(movies);
+                        })
                     })
                 })
-
             })
 
-            //TODO: This adds the functionality to the left button
+            //todo: This adds the functionality to the left button
             btnL.addEventListener('click', () => {
                 moviebar.innerHTML = '';
                 --start;
@@ -407,90 +494,46 @@ const onlineMovies = () => {
 
                         moviebar.innerHTML += r;
 
-                        //TODO:This loads in page for main page  (corresponds to the above load page functionality)
+                        //todo:This loads in page for main page  (corresponds to the above load page functionality)
                         document.querySelector('body').style.visibility = 'visible';
                         body.classList.remove('loadScreen');
                     }
                 })
 
-                //TODO: Click event for each card
+                //todo: Click event for each card
                 document.querySelectorAll('card').forEach(function (card, i) {
                     card.addEventListener('click', function () {
 
-                        //TODO: Adding image to the left side of the page
+                        //todo: Adding image to the left side of the page
                         let leftSide = document.querySelector('rightside'); //do not change selector
                         leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" /> <button id="addMovie" style="justify-self: end; text-align: center; width: 90%" type="button"> A<br>D<br>D </button>`
 
-                        //TODO: This adds title to right side of the page
-                        // ---- code goes here ----
+                        //todo: This adds title to right side of the page
+                        movieTitle.innerHTML = movies[(i + change)].Title;
 
-                        //TODO: This adds movies to the main page
+                        //todo: This adds movies to the main page
                         document.querySelector('#addMovie').addEventListener('click', function () {
                             function addMovie(movie) {
                                 console.log(movie);
                                 fetch("https://truthful-field-mice.glitch.me/movies", {
                                     method: "POST",
                                     body: JSON.stringify({
-                                        Title: movie.Title,
-                                        Poster: movie.Poster,
-                                        imdbID: movie.imdbID
+                                        Title: movie[(i + change)].Title,
+                                        Poster: movie[(i + change)].Poster,
+                                        imdbID: movie[(i + change)].imdbID
                                     }),
                                     headers: {
                                         'Content-Type': 'application/json'
                                     }
                                 }).then((res) => res.json()).then(data => console.log(data))
                             }
-
                             addMovie(movies);
                         })
                     })
                 })
-
-
             })
-
-            //TODO: Trying to add specific movie search by id to add descriptions etc
-            // ---- code goes here ----
-            console.log(movies);
-
-
-            //TODO: This adds movies to the main page
-            document.querySelector('#addMovie').addEventListener('click', function () {
-                function addMovie(movie) {
-                    console.log(movie);
-                    fetch("https://truthful-field-mice.glitch.me/movies", {
-                        method: "POST",
-                        body: JSON.stringify({
-                            Title: movie[0].Title,
-                            Poster: movie[0].Poster,
-                            imdbID: movie[0].imdbID
-                        }),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }).then((res) => res.json()).then(data => console.log(data))
-                }
-
-                addMovie(movies);
-            })
-
-            //TODO: Click event for each card
-            document.querySelectorAll('card').forEach(function (card) {
-                card.addEventListener('click', function () {
-
-                    //TODO: Adding image to the left side of the page
-                    let leftSide = document.querySelector('rightside'); //do not change selector
-                    leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" /> <button id="addMovie" style="justify-self: end; text-align: center; width: 90%" type="button"> A<br>D<br>D</button>`
-
-                    //TODO: This adds title to right side of the page
-                    // ---- code goes here ----
-                })
-            })
-
-
         });
     })
-
 }
 onlineMovies();
 
