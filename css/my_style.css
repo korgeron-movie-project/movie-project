@@ -96,6 +96,7 @@ rightside {
 }
 
 moviebar {
+
     grid-area: moviebar;
     width: 100%;
     height: 100%;
