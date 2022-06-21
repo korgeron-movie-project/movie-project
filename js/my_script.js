@@ -32,6 +32,9 @@ const loadMainPageMovieData = (data) => {
         let map = new Map();
         let values;
 
+        //todo: This is needed in order to separate the online buttons from the main page buttons
+        let mainPage = true;
+
         //todo: Fixes constant load if array of movies is 0
         if (mainMovieArr.length <= 0) {
             //todo:This loads in page for main page  (corresponds to the above load page functionality)
@@ -158,17 +161,19 @@ const loadMainPageMovieData = (data) => {
             ++start;
             ++end;
             ++change;
+            if (mainPage === true) {
+                if (end >= mainMovieArr.length) {
+                    btnR.style.display = 'none';
+                } else {
+                    btnR.style.display = 'flex';
+                }
+                if (start <= 0) {
+                    btnL.style.display = 'none';
+                } else {
+                    btnL.style.display = 'flex';
+                }
+            }
 
-            if (end >= mainMovieArr.length) {
-                btnR.style.display = 'none';
-            } else {
-                btnR.style.display = 'flex';
-            }
-            if (start <= 0) {
-                btnL.style.display = 'none';
-            } else {
-                btnL.style.display = 'flex';
-            }
 
             mainMovieArr.forEach((movie, i) => {
 
@@ -286,6 +291,7 @@ const loadMainPageMovieData = (data) => {
                     })
                 })
             })
+            mainPage = false;
         })
         return moviebar;
     })
@@ -352,8 +358,20 @@ const onlineMovies = () => {
                 btnL.style.display = 'none';
             }
 
+            //todo: Grabs all data from movie title
+            let allDataArr = [];
+            const getAllData = (title) => {
+                console.log(title);
+                fetch(`http://www.omdbapi.com/?t=${title}&apikey=69918388`).then(res => res.json()).then(allData => allDataArr.push(allData));
+            }
+            getAllData(movies[0].Title);
+            console.log(allDataArr);
+
+            //todo: Create right side page data display
+
+
             //todo: Click event for each card
-            document.querySelectorAll('card').forEach(function (card,i) {
+            document.querySelectorAll('card').forEach(function (card, i) {
                 card.addEventListener('click', function () {
                     console.log(movies);
 
@@ -364,7 +382,7 @@ const onlineMovies = () => {
                     //todo: This adds title to right side of the page
                     movieTitle.innerHTML = movies[i].Title;
 
-                    //todo: This adds movies to the main page
+                    //todo: This adds movies to the main page (for each card on page load)
                     document.querySelector('#addMovie').addEventListener('click', function () {
                         function addMovie(movie) {
                             console.log(movie);
@@ -380,6 +398,7 @@ const onlineMovies = () => {
                                 }
                             }).then((res) => res.json()).then(data => console.log(data))
                         }
+
                         addMovie(movies);
                     })
                 })
@@ -401,17 +420,14 @@ const onlineMovies = () => {
                         }
                     }).then((res) => res.json()).then(data => console.log(data))
                 }
+
                 addMovie(movies);
             })
-
-            //todo: Trying to add specific movie search by id to add descriptions etc
-            // ---- code goes here ----
-            console.log(movies);
 
             //todo: Right button click event
             btnR.addEventListener('click', () => {
                 moviebar.innerHTML = '';
-                console.log(++start);
+                ++start;
                 ++end;
                 ++change;
 
@@ -464,6 +480,7 @@ const onlineMovies = () => {
                                     }
                                 }).then((res) => res.json()).then(data => console.log(data))
                             }
+
                             addMovie(movies);
                         })
                     })
@@ -527,6 +544,7 @@ const onlineMovies = () => {
                                     }
                                 }).then((res) => res.json()).then(data => console.log(data))
                             }
+
                             addMovie(movies);
                         })
                     })
