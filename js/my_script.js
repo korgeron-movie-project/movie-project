@@ -1,14 +1,13 @@
 /*TODO:
-   1. Add right side of page to start up / online pages
-        a. needs "description"
-        b. needs "rating"
-        c. needs "author"
-   2. Create "EDIT" button functionality to main page
-   3. Style CSS for main page for "IF ARRAY LENGTH WAS 0"
-   4. What happens if movie search doesnt exist?
-   5. fix issue with too long of a movie description...
-   6. mess around with border style of card based on index % 2 === 0
+   1. Create "EDIT" button functionality to main page
+   2. Style CSS for main page for "IF ARRAY LENGTH WAS 0"
+   3. What happens if movie search doesnt exist?
+   4. fix issue with too long of a movie description...
+   5. mess around with border style of card based on index % 2 === 0
 */
+
+//todo: This is needed in order to separate the online buttons from the main page buttons
+let mainPage = true;
 
 //todo: Page loading for main screen
 let body = document.querySelector('body');
@@ -33,9 +32,7 @@ const loadMainPageMovieData = (data) => {
         console.log(mainMovieArr);
         let map = new Map();
         let values;
-
-        //todo: This is needed in order to separate the online buttons from the main page buttons
-        let mainPage = true;
+        console.log(mainPage);
 
         //todo: Fixes constant load if array of movies is 0
         if (mainMovieArr.length <= 0) {
@@ -48,7 +45,7 @@ const loadMainPageMovieData = (data) => {
 
         }
 
-        let moviebar = document.querySelector('movieBar');
+        let moviebar = document.querySelector('movieBar > cardbox');
 
         //todo: This is the data to change in order to change the poster data for the cards on button clicks
         let start = 0;
@@ -72,7 +69,7 @@ const loadMainPageMovieData = (data) => {
             //todo: Create right side page data display
             document.querySelector('.rating').innerHTML = `Rated: ${mainMovieArr[0].Rated} <span style="padding-left: 3em">${mainMovieArr[0].Runtime}`;
             document.querySelector('.description').innerHTML = `${mainMovieArr[0].Plot}`;
-            document.querySelector('.awards').innerHTML = `${mainMovieArr[0].Awards} <br>Given ${mainMovieArr[0].imdbRating} / 10 stars`;
+            document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[0].Awards} <br>Given ${mainMovieArr[0].imdbRating} / 10 stars`;
             document.querySelector('.director').innerHTML = `<br>Director:<br>${mainMovieArr[0].Director}`;
             document.querySelector('.actors').innerHTML = `<br>Actors:<br>${mainMovieArr[0].Actors}`;
 
@@ -80,7 +77,6 @@ const loadMainPageMovieData = (data) => {
             if (((i) + start) < end) {
 
                 //todo: Sets values from Map() to card (values = id)
-
                 map.forEach(function (value) {
                     values = value;
                 })
@@ -93,6 +89,7 @@ const loadMainPageMovieData = (data) => {
             }
         })
 
+        //todo: Stores buttons as variables
         let btnR = document.querySelector('buttonRight');
         let btnL = document.querySelector('buttonLeft');
 
@@ -100,18 +97,6 @@ const loadMainPageMovieData = (data) => {
         if (start <= 0) {
             btnL.style.display = 'none';
         }
-
-        //todo: Sets every other card to inset border
-
-        // let cardsRef = document.querySelectorAll('card');
-        // cardsRef.forEach(function (card, i){
-        //     if (cardsRef.length % 2 === 0){
-        //card.style.border = 'green outset thick';
-        // }
-        // })
-
-
-
 
         //todo: Click event for each card
         document.querySelectorAll('card').forEach(function (card, i) {
@@ -126,7 +111,15 @@ const loadMainPageMovieData = (data) => {
 
                 //todo: This adds title to right side of the page
                 let title = document.querySelector('h1');
-                title.innerHTML = `${mainMovieArr[(i)].Title}`;
+                title.innerHTML = `${mainMovieArr[i].Title}`;
+                console.log(mainMovieArr[i]);
+
+                //todo: Create right side page data display
+                document.querySelector('.rating').innerHTML = `Rated: ${mainMovieArr[i].Rated} <span style="padding-left: 3em">${mainMovieArr[i].Runtime}`;
+                document.querySelector('.description').innerHTML = `${mainMovieArr[i].Plot}`;
+                document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[i].Awards} <br>Given ${mainMovieArr[i].imdbRating} / 10 stars`;
+                document.querySelector('.director').innerHTML = `<br>Director:<br>${mainMovieArr[i].Director}`;
+                document.querySelector('.actors').innerHTML = `<br>Actors:<br>${mainMovieArr[i].Actors}`;
 
                 //todo: Delete button functionality
                 document.querySelector('#deleteMovie').addEventListener('click', function () {
@@ -148,6 +141,9 @@ const loadMainPageMovieData = (data) => {
                     setTimeout(function () {
                         document.location.reload();
                     }, 300);
+
+
+
                 })
             })
         })
@@ -183,6 +179,7 @@ const loadMainPageMovieData = (data) => {
             ++start;
             ++end;
             ++change;
+            console.log(mainPage);
             if (mainPage === true) {
                 if (end >= mainMovieArr.length) {
                     btnR.style.display = 'none';
@@ -226,6 +223,14 @@ const loadMainPageMovieData = (data) => {
                     let title = document.querySelector('h1');
                     title.innerHTML = `${card.firstElementChild.attributes[2].nodeValue}`;
 
+                    //todo: Create right side page data display
+                    document.querySelector('.rating').innerHTML = `Rated: ${mainMovieArr[(i + change)].Rated} <span style="padding-left: 3em">${mainMovieArr[(i + change)].Runtime}`;
+                    document.querySelector('.description').innerHTML = `${mainMovieArr[(i + change)].Plot}`;
+                    document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[(i + change)].Awards} <br>Given ${mainMovieArr[(i + change)].imdbRating} / 10 stars`;
+                    document.querySelector('.director').innerHTML = `<br>Director:<br>${mainMovieArr[(i + change)].Director}`;
+                    document.querySelector('.actors').innerHTML = `<br>Actors:<br>${mainMovieArr[(i + change)].Actors}`;
+
+
                     //todo: Delete button functionality
                     document.querySelector('#deleteMovie').addEventListener('click', function () {
                         const deleteMovie = (id) => {
@@ -254,16 +259,18 @@ const loadMainPageMovieData = (data) => {
             --start;
             --end;
             --change;
-
-            if (end >= mainMovieArr.length) {
-                btnR.style.display = 'none';
-            } else {
-                btnR.style.display = 'flex';
-            }
-            if (start <= 0) {
-                btnL.style.display = 'none';
-            } else {
-                btnL.style.display = 'flex';
+            console.log(mainPage);
+            if (mainPage === true) {
+                if (end >= mainMovieArr.length) {
+                    btnR.style.display = 'none';
+                } else {
+                    btnR.style.display = 'flex';
+                }
+                if (start <= 0) {
+                    btnL.style.display = 'none';
+                } else {
+                    btnL.style.display = 'flex';
+                }
             }
 
             mainMovieArr.forEach((movie, i) => {
@@ -279,11 +286,9 @@ const loadMainPageMovieData = (data) => {
             })
 
             //todo: Click event for each card
-            document.querySelectorAll('card').forEach(function (card) {
+            document.querySelectorAll('card').forEach(function (card, i) {
                 card.addEventListener('click', function () {
                     console.log(card);
-
-                    // console.log(card.firstElementChild.attributes[1].value);
 
                     //todo: Adding image to the left side of the page
                     let leftSide = document.querySelector('rightside'); //do not change selector
@@ -292,6 +297,13 @@ const loadMainPageMovieData = (data) => {
                     //todo: This adds title to right side of the page
                     let title = document.querySelector('h1');
                     title.innerHTML = `${card.firstElementChild.attributes[2].nodeValue}`;
+
+                    //todo: Create right side page data display
+                    document.querySelector('.rating').innerHTML = `Rated: ${mainMovieArr[(i + change)].Rated} <span style="padding-left: 3em">${mainMovieArr[(i + change)].Runtime}`;
+                    document.querySelector('.description').innerHTML = `${mainMovieArr[(i + change)].Plot}`;
+                    document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[(i + change)].Awards} <br>Given ${mainMovieArr[(i + change)].imdbRating} / 10 stars`;
+                    document.querySelector('.director').innerHTML = `<br>Director:<br>${mainMovieArr[(i + change)].Director}`;
+                    document.querySelector('.actors').innerHTML = `<br>Actors:<br>${mainMovieArr[(i + change)].Actors}`;
 
                     //todo: Delete button functionality
                     document.querySelector('#deleteMovie').addEventListener('click', function () {
@@ -313,7 +325,6 @@ const loadMainPageMovieData = (data) => {
                     })
                 })
             })
-            mainPage = false;
         })
         return moviebar;
     })
@@ -329,6 +340,7 @@ const onlineMovies = () => {
     //todo: This adds click event to search for online movies to add to current page
     document.querySelector('#search-button').addEventListener('click', () => {
         console.log(search.value);
+        mainPage = false;
 
         //todo: Page loading for main screen
         let body = document.querySelector('body');
@@ -340,7 +352,7 @@ const onlineMovies = () => {
 
             //todo: Results from search bar
             let movies = data.Search;
-            let moviebar = document.querySelector('movieBar');
+            let moviebar = document.querySelector('movieBar > cardbox');
             moviebar.innerHTML = '';
             console.log(movies);
 
@@ -416,6 +428,7 @@ const onlineMovies = () => {
                                 }
                             }).then((res) => res.json()).then(data => console.log(data))
                         }
+
                         addMovie(movies);
                     })
                 });
@@ -481,8 +494,6 @@ const onlineMovies = () => {
                 })
             })
 
-
-
             //todo: Right button click event
             btnR.addEventListener('click', () => {
                 moviebar.innerHTML = '';
@@ -490,15 +501,17 @@ const onlineMovies = () => {
                 ++end;
                 ++change;
 
-                if (end >= movies.length) {
-                    btnR.style.display = 'none';
-                } else {
-                    btnR.style.display = 'flex';
-                }
-                if (start <= 0) {
-                    btnL.style.display = 'none';
-                } else {
-                    btnL.style.display = 'flex';
+                if (mainPage === false) {
+                    if (end >= movies.length) {
+                        btnR.style.display = 'none';
+                    } else {
+                        btnR.style.display = 'flex';
+                    }
+                    if (start <= 0) {
+                        btnL.style.display = 'none';
+                    } else {
+                        btnL.style.display = 'flex';
+                    }
                 }
 
                 movies.forEach((movie, i) => {
@@ -523,25 +536,47 @@ const onlineMovies = () => {
                         //todo: This adds title to right side of the page
                         movieTitle.innerHTML = movies[(i + change)].Title;
 
-                        //todo: This adds movies to the main page
-                        document.querySelector('#addMovie').addEventListener('click', function () {
-                            function addMovie(movie) {
-                                console.log(movie);
-                                fetch("https://truthful-field-mice.glitch.me/movies", {
-                                    method: "POST",
-                                    body: JSON.stringify({
-                                        Title: movie[(i + change)].Title,
-                                        Poster: movie[(i + change)].Poster,
-                                        imdbID: movie[(i + change)].imdbID
-                                    }),
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    }
-                                }).then((res) => res.json()).then(data => console.log(data))
-                            }
+                        //todo: Grabs all data from movie title
+                        const getAllData = (title) => {
+                            console.log(title);
+                            fetch(`http://www.omdbapi.com/?i=${title}&apikey=69918388`).then(res => res.json()).then(allData => {
+                                console.log(allData);
 
-                            addMovie(movies);
-                        })
+                                //todo: Create right side page data display
+                                document.querySelector('.rating').innerHTML = `Rated: ${allData.Rated} <span style="padding-left: 3em">${allData.Runtime}`;
+                                document.querySelector('.description').innerHTML = `${allData.Plot}`;
+                                document.querySelector('.awards').innerHTML = `${allData.Awards} <br>Given ${allData.imdbRating} / 10 stars`;
+                                document.querySelector('.director').innerHTML = `<br>Director:<br>${allData.Director}`;
+                                document.querySelector('.actors').innerHTML = `<br>Actors:<br>${allData.Actors}`;
+
+                                //todo: This adds movies to the main page
+                                document.querySelector('#addMovie').addEventListener('click', function () {
+                                    function addMovie(movie) {
+                                        console.log(movie);
+                                        fetch("https://truthful-field-mice.glitch.me/movies", {
+                                            method: "POST",
+                                            body: JSON.stringify({
+                                                Title: movie[(i + change)].Title,
+                                                Poster: movie[(i + change)].Poster,
+                                                imdbID: movie[(i + change)].imdbID,
+                                                Plot: allData.Plot,
+                                                Rated: allData.Rated,
+                                                Awards: allData.Awards,
+                                                imdbRating: allData.imdbRating,
+                                                Director: allData.Director,
+                                                Actors: allData.Actors,
+                                                Runtime: allData.Runtime
+                                            }),
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }
+                                        }).then((res) => res.json()).then(data => console.log(data))
+                                    }
+                                    addMovie(movies);
+                                })
+                            });
+                        }
+                        getAllData(movies[(i + change)].imdbID);
                     })
                 })
             })
@@ -553,15 +588,17 @@ const onlineMovies = () => {
                 --end;
                 --change;
 
-                if (end >= movies.length) {
-                    btnR.style.display = 'none';
-                } else {
-                    btnR.style.display = 'flex';
-                }
-                if (start <= 0) {
-                    btnL.style.display = 'none';
-                } else {
-                    btnL.style.display = 'flex';
+                if (mainPage === false) {
+                    if (end >= movies.length) {
+                        btnR.style.display = 'none';
+                    } else {
+                        btnR.style.display = 'flex';
+                    }
+                    if (start <= 0) {
+                        btnL.style.display = 'none';
+                    } else {
+                        btnL.style.display = 'flex';
+                    }
                 }
 
                 movies.forEach((movie, i) => {
@@ -587,25 +624,47 @@ const onlineMovies = () => {
                         //todo: This adds title to right side of the page
                         movieTitle.innerHTML = movies[(i + change)].Title;
 
-                        //todo: This adds movies to the main page
-                        document.querySelector('#addMovie').addEventListener('click', function () {
-                            function addMovie(movie) {
-                                console.log(movie);
-                                fetch("https://truthful-field-mice.glitch.me/movies", {
-                                    method: "POST",
-                                    body: JSON.stringify({
-                                        Title: movie[(i + change)].Title,
-                                        Poster: movie[(i + change)].Poster,
-                                        imdbID: movie[(i + change)].imdbID
-                                    }),
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    }
-                                }).then((res) => res.json()).then(data => console.log(data))
-                            }
+                        //todo: Grabs all data from movie title
+                        const getAllData = (title) => {
+                            console.log(title);
+                            fetch(`http://www.omdbapi.com/?i=${title}&apikey=69918388`).then(res => res.json()).then(allData => {
+                                console.log(allData);
 
-                            addMovie(movies);
-                        })
+                                //todo: Create right side page data display
+                                document.querySelector('.rating').innerHTML = `Rated: ${allData.Rated} <span style="padding-left: 3em">${allData.Runtime}`;
+                                document.querySelector('.description').innerHTML = `${allData.Plot}`;
+                                document.querySelector('.awards').innerHTML = `${allData.Awards} <br>Given ${allData.imdbRating} / 10 stars`;
+                                document.querySelector('.director').innerHTML = `<br>Director:<br>${allData.Director}`;
+                                document.querySelector('.actors').innerHTML = `<br>Actors:<br>${allData.Actors}`;
+
+                                //todo: This adds movies to the main page
+                                document.querySelector('#addMovie').addEventListener('click', function () {
+                                    function addMovie(movie) {
+                                        console.log(movie);
+                                        fetch("https://truthful-field-mice.glitch.me/movies", {
+                                            method: "POST",
+                                            body: JSON.stringify({
+                                                Title: movie[(i + change)].Title,
+                                                Poster: movie[(i + change)].Poster,
+                                                imdbID: movie[(i + change)].imdbID,
+                                                Plot: allData.Plot,
+                                                Rated: allData.Rated,
+                                                Awards: allData.Awards,
+                                                imdbRating: allData.imdbRating,
+                                                Director: allData.Director,
+                                                Actors: allData.Actors,
+                                                Runtime: allData.Runtime
+                                            }),
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }
+                                        }).then((res) => res.json()).then(data => console.log(data))
+                                    }
+                                    addMovie(movies);
+                                })
+                            });
+                        }
+                        getAllData(movies[(i + change)].imdbID);
                     })
                 })
             })
