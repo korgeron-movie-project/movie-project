@@ -44,21 +44,20 @@ navBarL{
 
 
 leftside {
-    padding: 1em;
+    padding-left: 1em;
     grid-area: leftside;
-    /*background: palegreen;*/
     background: black;
     display: grid;
     grid-template-areas:
-        'testing'
+        'title'
         'rating'
         'description';
-    grid-template-rows: 2fr 1fr 5fr;
+    grid-template-rows: repeat(2, 1fr) 5fr;
     color: white;
 }
 
 movieTitle {
-    grid-area: testing;
+    grid-area: title;
     /*background: lightgrey;*/
     /*border: solid red 1px;*/
 
@@ -67,19 +66,19 @@ movieTitle {
 rating {
     grid-area: rating;
     /*background: lightgrey;*/
-    border: solid red 1px;
+    /*border: solid red 1px;*/
 }
 
 description {
     grid-area: description;
     /*background: lightgrey;*/
-    border: solid red 1px;
+    /*border: solid red 1px;*/
 }
 
 .author {
     position: relative;
-    /*background: lightgrey;*/
-    border: solid red 1px;
+    /*background: lightblue;*/
+    /*border: solid red 1px;*/
 }
 
 rightside {
@@ -91,6 +90,7 @@ rightside {
             'movie-img delete'
             'movie-img edit';
     grid-template-columns: 15fr 1fr;
+    grid-template-rows: max-content;
 
 
 }
@@ -112,17 +112,18 @@ moviebar {
 card {
     height: 90%;
     width: 180px;
+    border: lightslategray outset thin;
     /*background: violet;*/
     background: black;
-    border: black solid 5px;
-    border-radius: 5%;
+    /*border: black solid 5px;*/
+    border-radius: 2%;
 }
 
 newCard {
     justify-content: center;
     height: 90%;
     width: 180px;
-    background: violet;
+    /*background: violet;*/
     border: black solid 5px;
     border-radius: 5%;
 }
