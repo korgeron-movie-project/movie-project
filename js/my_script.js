@@ -2,8 +2,6 @@
    1. Create "EDIT" button functionality to main page
    2. Style CSS for main page for "IF ARRAY LENGTH WAS 0"
    3. What happens if movie search doesnt exist?
-   4. fix issue with too long of a movie description...
-   5. mess around with border style of card based on index % 2 === 0
 */
 
 //todo: This is needed in order to separate the online buttons from the main page buttons
@@ -70,8 +68,8 @@ const loadMainPageMovieData = (data) => {
             document.querySelector('.rating').innerHTML = `Rated: ${mainMovieArr[0].Rated} <span style="padding-left: 3em">${mainMovieArr[0].Runtime}`;
             document.querySelector('.description').innerHTML = `${mainMovieArr[0].Plot}`;
             document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[0].Awards} <br>Given ${mainMovieArr[0].imdbRating} / 10 stars`;
-            document.querySelector('.director').innerHTML = `<br>Director:<br>${mainMovieArr[0].Director}`;
-            document.querySelector('.actors').innerHTML = `<br>Actors:<br>${mainMovieArr[0].Actors}`;
+            document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${mainMovieArr[0].Director}<br> ${mainMovieArr[0].Actors}`;
+
 
             //todo: Adds cards on page load
             if (((i) + start) < end) {
@@ -118,8 +116,7 @@ const loadMainPageMovieData = (data) => {
                 document.querySelector('.rating').innerHTML = `Rated: ${mainMovieArr[i].Rated} <span style="padding-left: 3em">${mainMovieArr[i].Runtime}`;
                 document.querySelector('.description').innerHTML = `${mainMovieArr[i].Plot}`;
                 document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[i].Awards} <br>Given ${mainMovieArr[i].imdbRating} / 10 stars`;
-                document.querySelector('.director').innerHTML = `<br>Director:<br>${mainMovieArr[i].Director}`;
-                document.querySelector('.actors').innerHTML = `<br>Actors:<br>${mainMovieArr[i].Actors}`;
+                document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${mainMovieArr[i].Director}<br> ${mainMovieArr[i].Actors}`;;
 
                 //todo: Delete button functionality
                 document.querySelector('#deleteMovie').addEventListener('click', function () {
@@ -227,8 +224,7 @@ const loadMainPageMovieData = (data) => {
                     document.querySelector('.rating').innerHTML = `Rated: ${mainMovieArr[(i + change)].Rated} <span style="padding-left: 3em">${mainMovieArr[(i + change)].Runtime}`;
                     document.querySelector('.description').innerHTML = `${mainMovieArr[(i + change)].Plot}`;
                     document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[(i + change)].Awards} <br>Given ${mainMovieArr[(i + change)].imdbRating} / 10 stars`;
-                    document.querySelector('.director').innerHTML = `<br>Director:<br>${mainMovieArr[(i + change)].Director}`;
-                    document.querySelector('.actors').innerHTML = `<br>Actors:<br>${mainMovieArr[(i + change)].Actors}`;
+                    document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${mainMovieArr[(i + change)].Director}<br> ${mainMovieArr[(i + change)].Actors}`;
 
 
                     //todo: Delete button functionality
@@ -302,8 +298,7 @@ const loadMainPageMovieData = (data) => {
                     document.querySelector('.rating').innerHTML = `Rated: ${mainMovieArr[(i + change)].Rated} <span style="padding-left: 3em">${mainMovieArr[(i + change)].Runtime}`;
                     document.querySelector('.description').innerHTML = `${mainMovieArr[(i + change)].Plot}`;
                     document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[(i + change)].Awards} <br>Given ${mainMovieArr[(i + change)].imdbRating} / 10 stars`;
-                    document.querySelector('.director').innerHTML = `<br>Director:<br>${mainMovieArr[(i + change)].Director}`;
-                    document.querySelector('.actors').innerHTML = `<br>Actors:<br>${mainMovieArr[(i + change)].Actors}`;
+                    document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${mainMovieArr[(i + change)].Director}<br> ${mainMovieArr[(i + change)].Actors}`;
 
                     //todo: Delete button functionality
                     document.querySelector('#deleteMovie').addEventListener('click', function () {
@@ -402,8 +397,7 @@ const onlineMovies = () => {
                     document.querySelector('.rating').innerHTML = `Rated: ${allData.Rated} <span style="padding-left: 3em">${allData.Runtime}`;
                     document.querySelector('.description').innerHTML = `${allData.Plot}`;
                     document.querySelector('.awards').innerHTML = `${allData.Awards} <br>Given ${allData.imdbRating} / 10 stars`;
-                    document.querySelector('.director').innerHTML = `<br>Director:<br>${allData.Director}`;
-                    document.querySelector('.actors').innerHTML = `<br>Actors:<br>${allData.Actors}`;
+                    document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${allData.Director}<br> ${allData.Actors}`;
 
                     //todo: This adds movies to the main page
                     document.querySelector('#addMovie').addEventListener('click', function () {
@@ -460,8 +454,7 @@ const onlineMovies = () => {
                             document.querySelector('.rating').innerHTML = `Rated: ${allData.Rated} <span style="padding-left: 3em">${allData.Runtime}`;
                             document.querySelector('.description').innerHTML = `${allData.Plot}`;
                             document.querySelector('.awards').innerHTML = `${allData.Awards} <br>Given ${allData.imdbRating} / 10 stars`;
-                            document.querySelector('.director').innerHTML = `<br>Director:<br>${allData.Director}`;
-                            document.querySelector('.actors').innerHTML = `<br>Actors:<br>${allData.Actors}`;
+                            document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${allData.Director}<br> ${allData.Actors}`;
 
                             //todo: This adds movies to the main page (for each card on page load)
                             document.querySelector('#addMovie').addEventListener('click', function () {
@@ -546,8 +539,7 @@ const onlineMovies = () => {
                                 document.querySelector('.rating').innerHTML = `Rated: ${allData.Rated} <span style="padding-left: 3em">${allData.Runtime}`;
                                 document.querySelector('.description').innerHTML = `${allData.Plot}`;
                                 document.querySelector('.awards').innerHTML = `${allData.Awards} <br>Given ${allData.imdbRating} / 10 stars`;
-                                document.querySelector('.director').innerHTML = `<br>Director:<br>${allData.Director}`;
-                                document.querySelector('.actors').innerHTML = `<br>Actors:<br>${allData.Actors}`;
+                                document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${allData.Director}<br> ${allData.Actors}`;
 
                                 //todo: This adds movies to the main page
                                 document.querySelector('#addMovie').addEventListener('click', function () {
@@ -634,8 +626,7 @@ const onlineMovies = () => {
                                 document.querySelector('.rating').innerHTML = `Rated: ${allData.Rated} <span style="padding-left: 3em">${allData.Runtime}`;
                                 document.querySelector('.description').innerHTML = `${allData.Plot}`;
                                 document.querySelector('.awards').innerHTML = `${allData.Awards} <br>Given ${allData.imdbRating} / 10 stars`;
-                                document.querySelector('.director').innerHTML = `<br>Director:<br>${allData.Director}`;
-                                document.querySelector('.actors').innerHTML = `<br>Actors:<br>${allData.Actors}`;
+                                document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${allData.Director}<br> ${allData.Actors}`;
 
                                 //todo: This adds movies to the main page
                                 document.querySelector('#addMovie').addEventListener('click', function () {
