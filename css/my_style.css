@@ -76,21 +76,15 @@ description {
     /*border: solid red 1px;*/
 }
 
-.author {
-    position: relative;
-    /*background: lightblue;*/
-    /*border: solid red 1px;*/
-}
-
 rightside {
     grid-area: rightside;
     /*background: paleturquoise;*/
     background: black;
     display: grid;
     grid-template-areas:
-            'movie-img delete'
-            'movie-img edit';
-    grid-template-columns: 15fr 1fr;
+            'null movie-img'   /*delete - these words were removed from each line end*/
+            'null movie-img'; /*edit*/
+    grid-template-columns: 5fr 15fr 2fr;
     grid-template-rows: max-content;
 
 
@@ -108,7 +102,9 @@ moviebar {
             'btnL cards btnR';
 
     grid-template-columns: 1fr 2fr 1fr;
+
 }
+
 
 cardbox{
     grid-area: cards;
@@ -118,6 +114,7 @@ cardbox{
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+
 }
 
 card {
@@ -126,8 +123,10 @@ card {
     border: lightslategray outset thin;
     background: black;
     border-radius: 2%;
-    margin: .5em;
+    /*margin: .5em;*/
 }
+
+
 
 buttonLeft {
     grid-area: btnL;
