@@ -87,13 +87,13 @@ const loadMainPageMovieData = (data) => {
 
                 //todo: button hover events
                 document.querySelector('cardbox').addEventListener('mouseenter', function () {
-                    document.querySelectorAll('btnbox').forEach((btn) =>{
+                    document.querySelectorAll('btnbox').forEach((btn) => {
                         btn.style.visibility = 'visible';
 
                     })
 
                     document.querySelector('cardbox').addEventListener('mouseleave', function () {
-                        document.querySelectorAll('btnbox').forEach((btn) =>{
+                        document.querySelectorAll('btnbox').forEach((btn) => {
                             btn.style.visibility = 'hidden';
                         })
                     })
@@ -102,22 +102,44 @@ const loadMainPageMovieData = (data) => {
         })
 
 
-
         //todo: Stores buttons as variables
         let btnR = document.querySelector('buttonRight');
         let btnL = document.querySelector('buttonLeft');
+
 
         //todo: This is needed to hide left button on initial start
         if (start <= 0) {
             btnL.style.display = 'none';
         }
 
+        //todo: This is the "UPDATED VERSION [06/27/22]" for delete functionality
+        document.querySelectorAll('btnbox').forEach((btn, i) => {
+            btn.addEventListener('click', () => {
+                const deleteMovie = (id) => {
+                    console.log(mainMovieArr[i])
+                    const URL = "https://truthful-field-mice.glitch.me/movies";
+                    let options = {
+                        method: "DELETE",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                    return fetch(`${URL}/${id}`, options).then(() => console.log("DELETE SUCCESS!"))
+                }
+
+                deleteMovie(mainMovieArr[i].id);
+
+
+                setTimeout(function () {
+                    document.location.reload();
+                }, 300);
+            })
+        })
+
+
         //todo: Click event for each card
         document.querySelectorAll('card').forEach(function (card, i) {
             card.addEventListener('click', function () {
-
-                console.log(card);
-
 
                 //todo: Adding image to the left side of the page
                 let leftSide = document.querySelector('rightside'); //do not change selector
@@ -128,58 +150,18 @@ const loadMainPageMovieData = (data) => {
                 title.innerHTML = `${mainMovieArr[i].Title}`;
                 console.log(mainMovieArr[i]);
 
+
                 //todo: Create right side page data display
                 document.querySelector('.rating').innerHTML = `Rated: ${mainMovieArr[i].Rated} <span style="padding-left: 3em">${mainMovieArr[i].Runtime}`;
                 document.querySelector('.description').innerHTML = `${mainMovieArr[i].Plot}`;
                 document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[i].Awards} <br>Given ${mainMovieArr[i].imdbRating} / 10 stars`;
-                document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${mainMovieArr[i].Director}<br> ${mainMovieArr[i].Actors}`;;
-
-                //todo: Delete button functionality
-                document.querySelector('#deleteMovie').addEventListener('click', function () {
-                    const deleteMovie = (id) => {
-                        console.log(id);
-                        const URL = `https://truthful-field-mice.glitch.me/movies`;
-                        console.log(URL);
-                        let options = {
-                            method: "DELETE",
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        }
-                        return fetch(`${URL}/${id}`, options).then(() => console.log("DELETE SUCCESS!"))
-                    }
-                    deleteMovie(card.id);
-
-                    //todo: Page reload to update card data
-                    setTimeout(function () {
-                        document.location.reload();
-                    }, 300);
-
-
-
-                })
+                document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${mainMovieArr[i].Director}<br> ${mainMovieArr[i].Actors}`;
+                ;
             })
         })
 
         //todo: Delete button functionality (NEEDS TO BE CALLED HERE FOR INITIAL PAGE LOAD)
-        document.querySelector('#deleteMovie').addEventListener('click', function () {
-            const deleteMovie = (id) => {
-                const URL = "https://truthful-field-mice.glitch.me/movies";
-                let options = {
-                    method: "DELETE",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-                return fetch(`${URL}/${id}`, options).then(() => console.log("DELETE SUCCESS!"))
-            }
-            deleteMovie(mainMovieArr[0].id);
 
-            setTimeout(function () {
-                document.location.reload();
-            }, 300);
-
-        })
 
         //todo: Hides right button if array is less than or equal to 5
         if (mainMovieArr.length <= 5) {
@@ -254,6 +236,7 @@ const loadMainPageMovieData = (data) => {
 
                     //todo: Delete button functionality
                     document.querySelector('#deleteMovie').addEventListener('click', function () {
+                        console.log("Clicked");
                         const deleteMovie = (id) => {
                             const URL = "https://truthful-field-mice.glitch.me/movies";
                             let options = {
@@ -270,8 +253,12 @@ const loadMainPageMovieData = (data) => {
                             document.location.reload();
                         }, 300);
                     })
+
+
                 })
             })
+
+
         })
 
         //todo: This adds the functionality to the left button
@@ -513,6 +500,7 @@ const onlineMovies = () => {
                                         }
                                     }).then((res) => res.json()).then(data => console.log(data))
                                 }
+
                                 addMovie(movies);
                             })
                         });
@@ -598,6 +586,7 @@ const onlineMovies = () => {
                                             }
                                         }).then((res) => res.json()).then(data => console.log(data))
                                     }
+
                                     addMovie(movies);
                                 })
                             });
@@ -685,6 +674,7 @@ const onlineMovies = () => {
                                             }
                                         }).then((res) => res.json()).then(data => console.log(data))
                                     }
+
                                     addMovie(movies);
                                 })
                             });
