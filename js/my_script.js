@@ -42,7 +42,6 @@ const loadMainPageMovieData = (data) => {
 
             //todo: CSS STYLING FOR PAGE IF NO MOVIES EXIST IN ARRAY
             document.querySelector('rightSide').style.background = 'lightgrey'
-
         }
 
         let moviebar = document.querySelector('movieBar > cardbox');
@@ -60,7 +59,7 @@ const loadMainPageMovieData = (data) => {
 
             //todo: This adds left side image on page load
             let leftSide = document.querySelector('rightside'); //do not change selector
-            leftSide.innerHTML = `<img style="background-size: initial;height: 280px; width: 80%; grid-area: movie-img" src="${mainMovieArr[0].Poster}" alt="${mainMovieArr[0].Title}" />` /*<button id="deleteMovie" style="justify-self: end; text-align: center; height: 140px; width: 90%; margin-right: 2em; grid-area: delete" type="button"> D<br>E<br>L<br>E<br>T<br>E </button> <button id="editMovie" style="justify-self: end; text-align: center; height: 140px; width: 90%; margin-right: 2em; grid-area: edit" type="button"> E<br>D<br>I<br>T </button>*/
+            leftSide.innerHTML = `<img style="background-size: initial;height: 280px; width: 80%; grid-area: movie-img" src="${mainMovieArr[0].Poster}" alt="${mainMovieArr[0].Title}" />`
 
             //todo: This adds title to right side on page load
             let title = document.querySelector('h1');
@@ -79,6 +78,7 @@ const loadMainPageMovieData = (data) => {
                 map.forEach(function (value) {
                     values = value;
                 })
+
                 //todo: IMPORTANT! initiates card existence
                 let r = `<card id="${values}"><img style="background-size: contain; height: 100%; width: 100%" src="${mainMovieArr[(i) + change].Poster}"></card> <btnbox style="display: flex; visibility: hidden ;flex-direction: column""> <button id="deleteMovie" style="; text-align: center; height: 97px;" type="button"> D<br>E<br>L<br>E<br>T<br>E </button> <button id="editMovie" style=" text-align: center; height: 97px;" type="button"> E<br>D<br>I<br>T </button> </btnBox>`
                 moviebar.innerHTML += r;
@@ -102,11 +102,9 @@ const loadMainPageMovieData = (data) => {
             }
         })
 
-
         //todo: Stores buttons as variables
         let btnR = document.querySelector('buttonRight');
         let btnL = document.querySelector('buttonLeft');
-
 
         //todo: This is needed to hide left button on initial start
         if (start <= 0) {
@@ -130,13 +128,11 @@ const loadMainPageMovieData = (data) => {
 
                 deleteMovie(mainMovieArr[i].id);
 
-
                 setTimeout(function () {
                     document.location.reload();
                 }, 300);
             })
         })
-
 
         //todo: Click event for each card
         document.querySelectorAll('card').forEach(function (card, i) {
@@ -144,20 +140,18 @@ const loadMainPageMovieData = (data) => {
 
                 //todo: Adding image to the left side of the page
                 let leftSide = document.querySelector('rightside'); //do not change selector
-                leftSide.innerHTML = `<img style="height: 280px; width: 80%; grid-area: movie-img" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />` /*<button id="deleteMovie" style="justify-self: end; text-align: center; height: 140px; width: 90%; margin-right: 2em; grid-area: delete" type="button"> D<br>E<br>L<br>E<br>T<br>E </button> <button id="editMovie" style="justify-self: end; text-align: center; height: 140px; width: 90%; margin-right: 2em; grid-area: edit" type="button"> E<br>D<br>I<br>T </button>*/
+                leftSide.innerHTML = `<img style="height: 280px; width: 80%; grid-area: movie-img" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />`
 
                 //todo: This adds title to right side of the page
                 let title = document.querySelector('h1');
                 title.innerHTML = `${mainMovieArr[i].Title}`;
                 console.log(mainMovieArr[i]);
 
-
                 //todo: Create right side page data display
                 document.querySelector('.rating').innerHTML = `Rated: ${mainMovieArr[i].Rated} <span style="padding-left: 3em">${mainMovieArr[i].Runtime}`;
                 document.querySelector('.description').innerHTML = `${mainMovieArr[i].Plot}`;
                 document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[i].Awards} <br>Given ${mainMovieArr[i].imdbRating} / 10 stars`;
                 document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${mainMovieArr[i].Director}<br> ${mainMovieArr[i].Actors}`;
-                ;
             })
         })
 
@@ -177,7 +171,6 @@ const loadMainPageMovieData = (data) => {
                 }
 
                 deleteMovie(mainMovieArr[i].id);
-
 
                 setTimeout(function () {
                     document.location.reload();
@@ -230,7 +223,6 @@ const loadMainPageMovieData = (data) => {
                             document.querySelector('btnbox').style.visibility = 'hidden';
                         })
                     })
-
                 }
             })
 
@@ -242,7 +234,7 @@ const loadMainPageMovieData = (data) => {
 
                     //todo: Adding image to the left side of the page
                     let leftSide = document.querySelector('rightside'); //do not change selector
-                    leftSide.innerHTML = `<img style="height: 280px; width: 80%; grid-area: movie-img" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />` /*<button id="deleteMovie" style="justify-self: end; text-align: center; height: 140px; width: 90%; margin-right: 2em; grid-area: delete" type="button"> D<br>E<br>L<br>E<br>T<br>E </button> <button id="editMovie" style="justify-self: end; text-align: center; height: 140px; width: 90%; margin-right: 2em; grid-area: edit" type="button"> E<br>D<br>I<br>T </button>*/
+                    leftSide.innerHTML = `<img style="height: 280px; width: 80%; grid-area: movie-img" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />`
 
                     //todo: This adds title to right side of the page
                     let title = document.querySelector('h1');
@@ -253,7 +245,6 @@ const loadMainPageMovieData = (data) => {
                     document.querySelector('.description').innerHTML = `${mainMovieArr[(i + change)].Plot}`;
                     document.querySelector('.awards').innerHTML = `<br>${mainMovieArr[(i + change)].Awards} <br>Given ${mainMovieArr[(i + change)].imdbRating} / 10 stars`;
                     document.querySelector('.director').innerHTML = `<br>Director / Actors:<br>${mainMovieArr[(i + change)].Director}<br> ${mainMovieArr[(i + change)].Actors}`;
-
 
                     //todo: Delete button functionality
                     document.querySelectorAll('btnbox').forEach((btn, i) => {
@@ -269,9 +260,7 @@ const loadMainPageMovieData = (data) => {
                                 }
                                 return fetch(`${URL}/${id}`, options).then(() => console.log("DELETE SUCCESS!"))
                             }
-
                             deleteMovie(card.id);
-
 
                             setTimeout(function () {
                                 document.location.reload();
@@ -295,9 +284,7 @@ const loadMainPageMovieData = (data) => {
                         }
                         return fetch(`${URL}/${id}`, options).then(() => console.log("DELETE SUCCESS!"))
                     }
-
                     deleteMovie(mainMovieArr[i + 1].id);
-
 
                     setTimeout(function () {
                         document.location.reload();
@@ -343,7 +330,6 @@ const loadMainPageMovieData = (data) => {
                             document.querySelector('btnbox').style.visibility = 'hidden';
                         })
                     })
-
                 }
             })
 
@@ -354,7 +340,7 @@ const loadMainPageMovieData = (data) => {
 
                     //todo: Adding image to the left side of the page
                     let leftSide = document.querySelector('rightside'); //do not change selector
-                    leftSide.innerHTML = `<img style="height: 280px; width: 80%; grid-area: movie-img" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />` /*<button id="deleteMovie" style="justify-self: end; text-align: center; height: 140px; width: 90%; margin-right: 2em; grid-area: delete" type="button"> D<br>E<br>L<br>E<br>T<br>E </button> <button id="editMovie" style="justify-self: end; text-align: center; height: 140px; width: 90%; margin-right: 2em; grid-area: edit" type="button"> E<br>D<br>I<br>T </button>*/
+                    leftSide.innerHTML = `<img style="height: 280px; width: 80%; grid-area: movie-img" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />`
 
                     //todo: This adds title to right side of the page
                     let title = document.querySelector('h1');
@@ -380,9 +366,7 @@ const loadMainPageMovieData = (data) => {
                                 }
                                 return fetch(`${URL}/${id}`, options).then(() => console.log("DELETE SUCCESS!"))
                             }
-
                             deleteMovie(card.id);
-
 
                             setTimeout(function () {
                                 document.location.reload();
@@ -406,16 +390,13 @@ const loadMainPageMovieData = (data) => {
                         }
                         return fetch(`${URL}/${id}`, options).then(() => console.log("DELETE SUCCESS!"))
                     }
-
                     deleteMovie(mainMovieArr[i].id);
-
 
                     setTimeout(function () {
                         document.location.reload();
                     }, 300);
                 })
             })
-
         })
         return moviebar;
     })
@@ -449,7 +430,7 @@ const onlineMovies = () => {
 
             //todo: Adding image to the left side of the page
             let leftSide = document.querySelector('rightside'); //do not change selector
-            leftSide.innerHTML = `<img style="height: 280px; width: 80%; grid-area: movie-img" src="${movies[0].Poster}" alt="failed to load" />` /*<button id="addMovie" style="justify-self: end; text-align: center; width: 90%;  margin-right: 2em" type="button"> A<br>D<br>D</button>*/
+            leftSide.innerHTML = `<img style="height: 280px; width: 80%; grid-area: movie-img" src="${movies[0].Poster}" alt="failed to load" />`
 
             //todo: Add title to the right side of the page
             let movieTitle = document.querySelector('h1');
@@ -532,7 +513,7 @@ const onlineMovies = () => {
 
                     //todo: Adding image to the left side of the page
                     let leftSide = document.querySelector('rightside'); //do not change selector
-                    leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />` /*<button id="addMovie" style="justify-self: end; text-align: center; width: 90%" type="button"> A<br>D<br>D</button>*/
+                    leftSide.innerHTML = `<img style="height: 280px; width: 100%; grid-area: movie-img" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />`
 
                     //todo: This adds title to right side of the page
                     movieTitle.innerHTML = movies[i].Title;
@@ -606,7 +587,7 @@ const onlineMovies = () => {
 
                 movies.forEach((movie, i) => {
                     if (((i) + start) < end) {
-                        let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${movies[(i) + change].Poster}"></card> `
+                        let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${movies[(i) + change].Poster}"></card> <button id="addMovie" style="justify-self: end; text-align: center; " type="button"> A<br>D<br>D</button> `
 
                         moviebar.innerHTML += r;
                         //todo:This loads in page for main page  (corresponds to the above load page functionality)
@@ -621,7 +602,7 @@ const onlineMovies = () => {
 
                         //todo: Adding image to the left side of the page
                         let leftSide = document.querySelector('rightside'); //do not change selector
-                        leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />` /*<button id="addMovie" style="justify-self: end; text-align: center; width: 90%" type="button"> A<br>D<br>D</button>*/
+                        leftSide.innerHTML = `<img style="height: 280px; width: 100%; grid-area: movie-img" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />`
 
                         //todo: This adds title to right side of the page
                         movieTitle.innerHTML = movies[(i + change)].Title;
@@ -693,7 +674,7 @@ const onlineMovies = () => {
 
                 movies.forEach((movie, i) => {
                     if (((i) + start) < end) {
-                        let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${movies[(i) + change].Poster}"></card> `
+                        let r = `<card><img style="background-size: contain; height: 100%; width: 100%" src="${movies[(i) + change].Poster}"></card> <button id="addMovie" style="justify-self: end; text-align: center; " type="button"> A<br>D<br>D</button> `
 
                         moviebar.innerHTML += r;
 
@@ -709,7 +690,7 @@ const onlineMovies = () => {
 
                         //todo: Adding image to the left side of the page
                         let leftSide = document.querySelector('rightside'); //do not change selector
-                        leftSide.innerHTML = `<img style="height: 280px; width: 100%" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />` /*<button id="addMovie" style="justify-self: end; text-align: center; width: 90%" type="button"> A<br>D<br>D </button>*/
+                        leftSide.innerHTML = `<img style="height: 280px; width: 100%; grid-area: movie-img" src="${card.firstElementChild.attributes[1].value}" alt="failed to load" />`
 
                         //todo: This adds title to right side of the page
                         movieTitle.innerHTML = movies[(i + change)].Title;
